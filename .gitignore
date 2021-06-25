@@ -1,2 +1,7 @@
 /env/
 .idea/
+Controllers/__pycache__/
+Core/__pycache__/
+Views/__pycache__/
+documents/
+/app_logs.log

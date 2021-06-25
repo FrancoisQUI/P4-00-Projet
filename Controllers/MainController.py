@@ -1,15 +1,19 @@
 from Views.MainView import MainView
-from pprint import pprint
 import sys
+
+from pprint import pprint
+import logging
 
 from Core.Controller import Controller
 
 
+
+
 class MainController(Controller):
-    print("J'entre dans MainController")
+    logging.info("J'entre dans MainController")
 
     def __init__(self):
-        print("MainController constructor")
+        logging.info("MainController constructor")
         self.view = MainView()
         self.view.clear()
         self.render = self.view.render()
