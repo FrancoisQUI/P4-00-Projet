@@ -1,28 +1,31 @@
-from datetime import datetime
+from Core.Database import Database
+from Model import Model
 
 
-class Tournament:
+class Tournament(Model):
     def __init__(self,
-                 name: str,
-                 place: str,
-                 start_date: datetime,
-                 end_date: datetime,
-                 turns_list: dict,
-                 time_control: str,
-                 description: str,
-                 players=None,
-                 number_of_turns=8):
+                 tournament_data: dict,
+                 ):
+        """
+        Describe a tournament
 
-        if players is None:
-            self.players = []
-        else:
-            self.players = players
+        :param tournament_data: must be a dict like this example :
+                {'description': 'Test',
+                'end_date': '20211010',
+                'name': 'Test',
+                'number_of_turns': '8',
+                'place': 'Nowhere',
+                'start_date': '20211010',
+                'time_control': 'Blitz'}
+        """
+        self.name = tournament_data["name"]
+        self.place = tournament_data["place"]
+        self.start_date = tournament_data["start_date"]
+        self.end_date = tournament_data["end_date"]
+        self.number_of_turns = tournament_data["number_of_turns"]
+        self.time_control = tournament_data["time_control"]
+        self.description = tournament_data["description"]
 
-        self.name = name
-        self.place = place
-        self.start_date = start_date
-        self.end_date = end_date
-        self.number_of_turns = number_of_turns
-        self.turns_list = turns_list
-        self.time_control = time_control
-        self.description = description
+        self.players = []
+        self.turns_list = []
+

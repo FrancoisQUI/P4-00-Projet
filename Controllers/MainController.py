@@ -1,19 +1,15 @@
 from Views.MainView import MainView
 import sys
 
-from pprint import pprint
-import logging
-
 from Core.Controller import Controller
-
-
+from Controllers.TournamentController import TournamentController
 
 
 class MainController(Controller):
-    logging.info("J'entre dans MainController")
 
     def __init__(self):
-        logging.info("MainController constructor")
+        super().__init__()
+        self.logger.info("MainController constructor")
         self.view = MainView()
         self.view.clear()
         self.render = self.view.render()
@@ -21,6 +17,7 @@ class MainController(Controller):
 
     @staticmethod
     def do_action(action):
+        next_action = None
         if action == "Quitter":
             print("Merci d'avoir utiliser mon logiciel")
             sys.exit()
@@ -34,5 +31,6 @@ class MainController(Controller):
             pass
         elif action == "Créer un nouveau tournois":
             print("Créer un tournois")
-            # TODO: Créer l'action "Créer" dans le TournamentController
-            pass
+            next_action = TournamentController.create_tournament()
+
+        return next_action

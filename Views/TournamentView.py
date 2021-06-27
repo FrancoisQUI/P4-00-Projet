@@ -8,13 +8,15 @@ import logging
 
 # Core imports
 from Core.View import View
-from Models.Tournament import Tournament
 
 
 class TournamentView(View):
 
+    def __init__(self):
+        super().__init__()
+
     @staticmethod
-    def create_tournament_form(self):
+    def create_tournament_form():
         questions = [
             inquirer.Text('name',
                           message="The Tournament Name ? "),
@@ -29,7 +31,8 @@ class TournamentView(View):
                                   "Must be a number : AAAAMMDD"),
             # TODO: Validate date format
             inquirer.Text('number_of_turns',
-                          message="How many turns ? Default 8"),
+                          message="How many turns ? Default 8",
+                          default=8),
             inquirer.List('time_control',
                           message="Witch Time Control Type ? ",
                           choices=["Bullet", "Blitz", "Quick hit"],
@@ -38,5 +41,7 @@ class TournamentView(View):
             inquirer.Text('description',
                           message="describe the tournament")
         ]
+
+        return inquirer.prompt(questions)
 
 
