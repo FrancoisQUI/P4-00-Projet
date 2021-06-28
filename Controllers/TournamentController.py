@@ -9,6 +9,8 @@ class TournamentController(Controller):
 
     def __init__(self):
         super().__init__()
+        self.view = TournamentView()
+        self.view.clear()
         self.logger.info("TournamentController constructor")
 
     @staticmethod
@@ -16,5 +18,5 @@ class TournamentController(Controller):
         tournament_data = TournamentView.create_tournament_form()
         tournament = Tournament(tournament_data)
         pprint(tournament.__dict__)
-        tournament.save()
+        tournament.save_new()
         return tournament

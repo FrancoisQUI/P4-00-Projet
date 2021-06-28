@@ -4,11 +4,9 @@ from colorama import init, Fore
 
 # Python modules
 from pprint import pprint
-import logging
 
 # Core imports
 from Core.View import View
-from Models.Tournament import Tournament
 
 init()  # initialise colorama module
 

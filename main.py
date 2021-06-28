@@ -22,7 +22,7 @@ def main():
     logger = init_logger()
 
     logger.info("Start APP")
-    app = MainController.MainController()
+    _app = MainController.MainController()
     logger.info("Finish APP")
 
 

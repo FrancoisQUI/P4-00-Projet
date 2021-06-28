@@ -1,14 +1,12 @@
 from datetime import datetime
 
+from Model import Model
 
-class Person:
+
+class Person(Model):
     """ Represent a person """
-
-    def __init__(self,
-                 first_name: str,
-                 name: str,
-                 birthdate: datetime,
-                 gender: str):
+    def __init__(self, first_name: str, name: str, birthdate: datetime, gender: str):
+        super().__init__()
         self.first_name = first_name
         self.name = name
         self.birthdate = birthdate

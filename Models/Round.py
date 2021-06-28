@@ -1,3 +1,6 @@
-class Round:
+from Model import Model
+
+
+class Round(Model):
     def __init__(self):
-        pass
+        super().__init__()

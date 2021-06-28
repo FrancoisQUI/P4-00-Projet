@@ -1,11 +1,8 @@
-from Core.Database import Database
 from Model import Model
 
 
 class Tournament(Model):
-    def __init__(self,
-                 tournament_data: dict,
-                 ):
+    def __init__(self, tournament_data: dict):
         """
         Describe a tournament
 
@@ -18,6 +15,7 @@ class Tournament(Model):
                 'start_date': '20211010',
                 'time_control': 'Blitz'}
         """
+        super().__init__()
         self.name = tournament_data["name"]
         self.place = tournament_data["place"]
         self.start_date = tournament_data["start_date"]
