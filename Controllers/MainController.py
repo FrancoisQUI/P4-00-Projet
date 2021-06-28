@@ -27,10 +27,10 @@ class MainController(Controller):
             pass
         elif action == "Sélectionner un tournois":
             print("Sélectionner un tournois")
-            # TODO: Créer l'action "Select" dans le TournamentController
-            pass
+            tournament = TournamentController.select_tournament()
+
         elif action == "Créer un nouveau tournois":
             print("Créer un tournois")
-            next_action = TournamentController.create_tournament()
+            TournamentController.create_tournament()
 
-        return next_action
+

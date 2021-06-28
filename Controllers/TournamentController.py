@@ -20,3 +20,10 @@ class TournamentController(Controller):
         pprint(tournament.__dict__)
         tournament.save_new()
         return tournament
+
+    @staticmethod
+    def select_tournament():
+        tournaments = Tournament.get_list(Tournament())
+        tournament_name = TournamentView.select_tournament(tournaments)
+        tournament = Tournament.find_one_by_name(Tournament(), tournament_name)
+        pprint(tournament)

@@ -8,6 +8,7 @@ import logging
 
 # Core imports
 from Core.View import View
+from Tournament import Tournament
 
 
 class TournamentView(View):
@@ -34,14 +35,25 @@ class TournamentView(View):
                           message="How many turns ? Default 8",
                           default=8),
             inquirer.List('time_control',
-                          message="Witch Time Control Type ? ",
+                          message="What kind of time control ? ",
                           choices=["Bullet", "Blitz", "Quick hit"],
-                          # TODO: Vérifier la traduction de "coup rapide" pour les echecs
+                          # TODO: Vérifier la traduction de "coup rapide" pour les échecs
                           default="Bullet"),
             inquirer.Text('description',
                           message="describe the tournament")
         ]
 
         return inquirer.prompt(questions)
+
+    @staticmethod
+    def select_tournament(tournaments):
+        tournaments_list = []
+        for tournament in tournaments:
+            tournaments_list.append({"name": tournament['name']})
+        select = [inquirer.List('selected_tournament',
+                                message='Choose a tournament',
+                                choices=tournaments_list)]
+        return inquirer.prompt(select)
+
 
 
