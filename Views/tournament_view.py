@@ -50,5 +50,11 @@ class TournamentView(View):
         return inquirer.prompt(select)
 
     @staticmethod
-    def manage_tournament(current_tournament):
-        pass
+    def manage_tournament_action(current_tournament):
+        actions = [
+            inquirer.List('Action',
+                          choices=['Add player',
+                                   'Compute First round'])
+        ]
+
+        return inquirer.prompt(actions)

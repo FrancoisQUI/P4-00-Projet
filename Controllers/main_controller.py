@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from Views.main_view import MainView
 import sys
 
@@ -18,12 +20,12 @@ class MainController(Controller):
 
     def do_action(self, action):
         tournament = None
-
+        pprint(type(tournament))
         if action == 'Quit Tournament Manager':
             print("Tournament manager closed")
             sys.exit()
         elif action == 'Manage current tournament':
-            tournament = TournamentController.manage_tournament(self.current_tournament)
+            tournament = TournamentController.manage_tournament_action(self.current_tournament)
         elif action == 'Select current tournament':
             tournament = TournamentController.select_tournament()
         elif action == 'Create tournament':

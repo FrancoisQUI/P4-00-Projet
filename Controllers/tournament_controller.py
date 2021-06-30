@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from Views.tournament_view import TournamentView
 from Models.tournament import Tournament
 from Core.controller import Controller
@@ -27,6 +29,12 @@ class TournamentController(Controller):
         return tournament
 
     @classmethod
-    def manage_tournament(cls, current_tournament):
-        # do something
+    def manage_tournament_action(cls, current_tournament):
+        action = TournamentView.manage_tournament_action(current_tournament)
+        if action == 'Add player':
+            pprint(current_tournament)
+            pass
+        elif action == 'Compute First round':
+            pass
+
         return current_tournament
