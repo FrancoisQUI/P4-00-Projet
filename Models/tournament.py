@@ -1,7 +1,9 @@
-from Model import Model
+from model import Model
 
 
 class Tournament(Model):
+    _table_name = "Tournament"
+
     def __init__(self, tournament_data=None):
         """
         Describe a tournament
@@ -26,6 +28,7 @@ class Tournament(Model):
             self.description = tournament_data["description"]
             self.players = []
             self.turns_list = []
+
 
 
 

@@ -1,8 +1,8 @@
 from pprint import pprint
 
-from Views.TournamentView import TournamentView
-from Models.Tournament import Tournament
-from Core.Controller import Controller
+from Views.tournament_view import TournamentView
+from Models.tournament import Tournament
+from Core.controller import Controller
 
 
 class TournamentController(Controller):
@@ -17,13 +17,17 @@ class TournamentController(Controller):
     def create_tournament():
         tournament_data = TournamentView.create_tournament_form()
         tournament = Tournament(tournament_data)
-        pprint(tournament.__dict__)
         tournament.save_new()
         return tournament
 
     @staticmethod
     def select_tournament():
-        tournaments = Tournament.get_list(Tournament())
+        tournaments = Tournament.get_list()
         tournament_name = TournamentView.select_tournament(tournaments)
-        tournament = Tournament.find_one_by_name(Tournament(), tournament_name)
-        pprint(tournament)
+        tournament = Tournament.find_one_by_name(tournament_name['selected_tournament'])
+        return tournament
+
+    @classmethod
+    def manage_tournament(cls, current_tournament):
+        pass
+

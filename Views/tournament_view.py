@@ -1,14 +1,14 @@
 # Externals module
 import inquirer
-from colorama import init, Fore
+
 
 # Python modules
 from pprint import pprint
 import logging
 
 # Core imports
-from Core.View import View
-from Tournament import Tournament
+from Core.view import View
+from tournament import Tournament
 
 
 class TournamentView(View):
@@ -49,11 +49,13 @@ class TournamentView(View):
     def select_tournament(tournaments):
         tournaments_list = []
         for tournament in tournaments:
-            tournaments_list.append({"name": tournament['name']})
+            tournaments_list.append(tournament['name'])
         select = [inquirer.List('selected_tournament',
                                 message='Choose a tournament',
                                 choices=tournaments_list)]
         return inquirer.prompt(select)
 
-
+    @staticmethod
+    def manage_tournament(current_tournament):
+        pass
 

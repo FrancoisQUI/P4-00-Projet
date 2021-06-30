@@ -6,7 +6,7 @@ from colorama import init, Fore
 from pprint import pprint
 
 # Core imports
-from Core.View import View
+from Core.view import View
 
 init()  # initialise colorama module
 
@@ -35,7 +35,9 @@ class MainView(View):
 
         if self.current_tournament is not None:
             print(Fore.BLUE + "Tournois Actuel : ")
-            pprint(self.current_tournament)
+            pprint(self.current_tournament[0]["name"])
+        else:
+            print(Fore.BLUE + "Pas de tournois actif")
 
         action = inquirer.prompt(self.question)
         return action

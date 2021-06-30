@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from Model import Model
+from model import Model
 
 
 class Person(Model):
