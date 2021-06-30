@@ -2,7 +2,7 @@ from Views.main_view import MainView
 import sys
 
 from Core.controller import Controller
-from Controllers.TournamentController import TournamentController
+from Controllers.tournament_controller import TournamentController
 
 
 class MainController(Controller):
@@ -19,18 +19,14 @@ class MainController(Controller):
     def do_action(self, action):
         tournament = None
 
-        if action == "Quitter":
-            print("Merci d'avoir utiliser mon logiciel")
+        if action == 'Quit Tournament Manager':
+            print("Tournament manager closed")
             sys.exit()
-        elif action == "Gérer le tournois en cours":
-            print("Gérer un tournois")
-            TournamentController.manage_tournament(self.current_tournament)
-            pass
-        elif action == "Sélectionner un tournois":
-            print("Sélectionner un tournois")
+        elif action == 'Manage current tournament':
+            tournament = TournamentController.manage_tournament(self.current_tournament)
+        elif action == 'Select current tournament':
             tournament = TournamentController.select_tournament()
-        elif action == "Créer un nouveau tournois":
-            print("Créer un tournois")
+        elif action == 'Create tournament':
             TournamentController.create_tournament()
 
         return MainController(current_tournament=tournament)

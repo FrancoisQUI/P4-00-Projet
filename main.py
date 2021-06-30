@@ -3,7 +3,7 @@
 import logging
 from Core.variables_settings import LOG_FILENAME
 
-from Controllers import MainController
+from Controllers import main_controller
 
 
 def main():
@@ -22,7 +22,7 @@ def main():
     logger = init_logger()
 
     logger.info("Start APP")
-    _app = MainController.MainController()
+    _app = main_controller.MainController()
     logger.info("Finish APP")
 
 

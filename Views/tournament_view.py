@@ -1,14 +1,6 @@
-# Externals module
 import inquirer
 
-
-# Python modules
-from pprint import pprint
-import logging
-
-# Core imports
 from Core.view import View
-from tournament import Tournament
 
 
 class TournamentView(View):
@@ -37,7 +29,6 @@ class TournamentView(View):
             inquirer.List('time_control',
                           message="What kind of time control ? ",
                           choices=["Bullet", "Blitz", "Quick hit"],
-                          # TODO: Vérifier la traduction de "coup rapide" pour les échecs
                           default="Bullet"),
             inquirer.Text('description',
                           message="describe the tournament")
@@ -49,7 +40,10 @@ class TournamentView(View):
     def select_tournament(tournaments):
         tournaments_list = []
         for tournament in tournaments:
-            tournaments_list.append(tournament['name'])
+            try:
+                tournaments_list.append(tournament['name'])
+            except KeyError:
+                pass
         select = [inquirer.List('selected_tournament',
                                 message='Choose a tournament',
                                 choices=tournaments_list)]
@@ -58,4 +52,3 @@ class TournamentView(View):
     @staticmethod
     def manage_tournament(current_tournament):
         pass
-

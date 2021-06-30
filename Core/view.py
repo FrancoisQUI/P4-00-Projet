@@ -5,6 +5,7 @@ from abc import ABC
 class View(ABC):
     def __init__(self):
         self.content = []
+        self.clear()
 
     @staticmethod
     def clear():

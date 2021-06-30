@@ -1,10 +1,8 @@
 from pprint import pprint
 
-from tinydb import TinyDB, Query, where
+from tinydb import TinyDB,  where
 
-import tournament
 from variables_settings import DATABASE_FILENAME
-
 
 
 class Model:
@@ -13,7 +11,10 @@ class Model:
     @classmethod
     def get_db(cls):
         pprint(DATABASE_FILENAME)
-        return TinyDB(DATABASE_FILENAME, sort_keys=True, indent=2, separators=(',', ': '))
+        return TinyDB(DATABASE_FILENAME,
+                      sort_keys=True,
+                      indent=2,
+                      separators=(',', ': '))
 
     @classmethod
     def get_table(cls):
@@ -29,12 +30,10 @@ class Model:
     def get_list(cls):
         table = cls.get_table()
         all_data = table.all()
-
         return all_data
 
     @classmethod
     def find_one_by_name(cls, the_name):
-
         table = cls.get_table()
         print(table.all())
         result = table.search(where("name") == the_name)
