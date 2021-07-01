@@ -12,7 +12,6 @@ class MainController(Controller):
     def __init__(self, current_tournament=None):
         super().__init__()
         self.current_tournament = current_tournament
-        self.logger.info("MainController constructor")
         self.view = MainView(current_tournament)
         self.view.clear()
         self.render = self.view.render()
@@ -20,14 +19,15 @@ class MainController(Controller):
 
     def do_action(self, action):
         tournament = None
-        pprint(type(tournament))
         if action == 'Quit Tournament Manager':
             print("Tournament manager closed")
             sys.exit()
         elif action == 'Manage current tournament':
-            tournament = TournamentController.manage_tournament_action(self.current_tournament)
+            tournament = TournamentController.\
+                manage_tournament_action(self.current_tournament)
         elif action == 'Select current tournament':
-            tournament = TournamentController.select_tournament()
+            tournament = TournamentController.\
+                select_tournament()
         elif action == 'Create tournament':
             TournamentController.create_tournament()
 

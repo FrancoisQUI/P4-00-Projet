@@ -47,14 +47,39 @@ class TournamentView(View):
         select = [inquirer.List('selected_tournament',
                                 message='Choose a tournament',
                                 choices=tournaments_list)]
-        return inquirer.prompt(select)
+        response = inquirer.prompt(select)
+        return response['selected_tournament']
 
-    @staticmethod
-    def manage_tournament_action(current_tournament):
+    @classmethod
+    def manage_tournament_action(cls, current_tournament):
+        current_round = len(current_tournament['turns_list'])
+        cls.clear()
+        print("--------------------------")
+        print("Current tournament : " +
+              current_tournament['name'])
+        if current_round > 0:
+            print("Current Round : " +
+                  str(current_round))
+            # TODO: Show currents matches
+        else:
+            print("Add players before compute the first round")
+        print("--------------------------")
+
+        def get_choices(_current_round):
+            choices = []
+            if _current_round == 0:
+                choices.append('Add player')
+                choices.append('Compute first round')
+            else:
+                choices.append('Enter round scores')
+                choices.append('Compute next round')
+            choices.append('Go Back')
+            return choices
+
         actions = [
             inquirer.List('Action',
-                          choices=['Add player',
-                                   'Compute First round'])
-        ]
+                          choices=get_choices(current_round))]
 
-        return inquirer.prompt(actions)
+        response = inquirer.prompt(actions)
+
+        return response["Action"]

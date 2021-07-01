@@ -35,7 +35,5 @@ class Model:
     @classmethod
     def find_one_by_name(cls, the_name):
         table = cls.get_table()
-        print(table.all())
         result = table.search(where("name") == the_name)
-        print(the_name)
         return result
