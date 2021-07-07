@@ -44,6 +44,7 @@ class TournamentView(View):
                 tournaments_list.append(tournament['name'])
             except KeyError:
                 pass
+            # TODO: regarder pour faire un IF
         select = [inquirer.List('selected_tournament',
                                 message='Choose a tournament',
                                 choices=tournaments_list)]

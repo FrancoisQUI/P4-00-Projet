@@ -4,7 +4,6 @@ from pprint import pprint
 from Views.tournament_view import TournamentView
 from Models.tournament import Tournament
 from Core.controller import Controller
-from player import Player
 from player_controller import PlayerController
 
 
@@ -19,23 +18,28 @@ class TournamentController(Controller):
     @staticmethod
     def create_tournament():
         tournament_data = TournamentView.create_tournament_form()
-        tournament = Tournament(tournament_data)
-        tournament.save_new()
-        return tournament
+        tournament = Tournament()
+        tournament.unserialize_tournament_data(tournament_data)
+        tournament.save_unique()
+        return tournament.serialised()
 
     @classmethod
     def select_tournament(cls):
         tournaments = Tournament.get_list()
         tournament_name = TournamentView.select_tournament(tournaments)
-        tournament = Tournament.find_one_by_name(
+        tournament_data = Tournament.find_one_by_name(
             tournament_name)
-        return tournament[0]
+        tournament = Tournament()
+        tournament.unserialize_tournament_data(tournament_data)
+        return tournament.serialised()
 
     @classmethod
     def manage_tournament_action(cls, current_tournament):
         action = TournamentView.manage_tournament_action(current_tournament)
         if action == 'Add player':
+            pprint(current_tournament)
             PlayerController.create_player(current_tournament)
+            print(current_tournament)
         elif action == 'Compute first round':
             # TODO: Compute first round
             pass

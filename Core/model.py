@@ -1,6 +1,7 @@
+import sys
 from pprint import pprint
 
-from tinydb import TinyDB,  where
+from tinydb import TinyDB, where, Query
 
 from variables_settings import DATABASE_FILENAME
 
@@ -10,7 +11,6 @@ class Model:
 
     @classmethod
     def get_db(cls):
-        pprint(DATABASE_FILENAME)
         return TinyDB(DATABASE_FILENAME,
                       sort_keys=True,
                       indent=2,
@@ -26,6 +26,17 @@ class Model:
         table = self.get_table()
         table.insert(self.__dict__)
 
+    def save_unique(self):
+        table = self.get_table()
+        table.truncate()
+        table.insert(self.__dict__)
+
+    def update(self):
+        table = self.get_table()
+        obj_to_update = table.get(where("name") == self.__dict__["name"])
+        table.update(self.__dict__,
+                     doc_ids=[obj_to_update.doc_id])
+
     @classmethod
     def get_list(cls):
         table = cls.get_table()
@@ -35,5 +46,6 @@ class Model:
     @classmethod
     def find_one_by_name(cls, the_name):
         table = cls.get_table()
-        result = table.search(where("name") == the_name)
+        result = table.get(where("name") == the_name)
+        pprint(result)
         return result
