@@ -42,7 +42,7 @@ class MainView(View):
 
         print(Fore.BLUE + "Current tournament ")
         if self.current_tournament is not None:
-            print(Fore.RED + self.current_tournament["name"])
+            print(Fore.RED + self.current_tournament.name)
         else:
             print(Fore.BLUE + "Any")
 

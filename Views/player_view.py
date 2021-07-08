@@ -2,6 +2,7 @@ from pprint import pprint
 
 import inquirer
 
+from player import Player
 from view import View
 
 
@@ -38,4 +39,23 @@ class PlayerView(View):
         else:
             return False
 
+    @staticmethod
+    def select_existing_player():
+        existing_players_list = Player.get_list()
+        player_choice_list = []
 
+        for player in existing_players_list:
+            player_instance = Player()
+            player_instance.unserialize_player_data(player)
+            player_choice_list.append(player_instance.__dict__)
+
+        checkboxes = [
+            inquirer.Checkbox('players',
+                              message="Select player to add "
+                                      "(Many if necessary)",
+                              choices=player_choice_list)
+        ]
+
+        response = inquirer.prompt(checkboxes)
+
+        return response['players']

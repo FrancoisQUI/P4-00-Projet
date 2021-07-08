@@ -13,17 +13,26 @@ class PlayerController(Controller):
         self.current_tournament = current_tournament
 
     @staticmethod
-    def create_player(tournament_data):
-        tournament = Tournament()
-        tournament.unserialize_tournament_data(tournament_data)
+    def create_player(tournament: Tournament):
+        # TODO: Refacto to use Tournament instance as parameter
         add_player = True
         while add_player is True:
             new_player_data = PlayerView.create_new_player_form()
             player = Player()
             player.unserialize_player_data(new_player_data)
             player.save_new()
-            tournament.players.append(player.__dict__)
+            tournament.players.append(player.serialized())
             add_player = PlayerView.add_more_player_question()
         tournament.update()
 
-        return tournament.serialised()
+        return tournament
+
+    @classmethod
+    def add_existing_player(cls, tournament: Tournament):
+        players = PlayerView.select_existing_player()
+        for player in players:
+            new_player = Player()
+            new_player.unserialize_player_data(player)
+            tournament.players.append(new_player.serialized())
+        tournament.update()
+        pprint(players)

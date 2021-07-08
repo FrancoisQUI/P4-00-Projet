@@ -1,6 +1,7 @@
 import inquirer
 
 from Core.view import View
+from tournament import Tournament
 
 
 class TournamentView(View):
@@ -37,7 +38,8 @@ class TournamentView(View):
         return inquirer.prompt(questions)
 
     @staticmethod
-    def select_tournament(tournaments):
+    def select_tournament():
+        tournaments = Tournament.get_list()
         tournaments_list = []
         for tournament in tournaments:
             try:
@@ -52,12 +54,12 @@ class TournamentView(View):
         return response['selected_tournament']
 
     @classmethod
-    def manage_tournament_action(cls, current_tournament):
-        current_round = len(current_tournament['turns_list'])
+    def manage_tournament_action(cls, current_tournament: Tournament):
+        current_round = len(current_tournament.turns_list)
         cls.clear()
         print("--------------------------")
         print("Current tournament : " +
-              current_tournament['name'])
+              current_tournament.name)
         if current_round > 0:
             print("Current Round : " +
                   str(current_round))
@@ -69,7 +71,8 @@ class TournamentView(View):
         def get_choices(_current_round):
             choices = []
             if _current_round == 0:
-                choices.append('Add player')
+                choices.append('Add new player')
+                choices.append('Add existing player')
                 choices.append('Compute first round')
             else:
                 choices.append('Enter round scores')

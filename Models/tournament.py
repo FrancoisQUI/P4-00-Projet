@@ -1,8 +1,14 @@
+from pprint import pprint, pformat
+
+from match import Match
 from model import Model
+from player import Player
+from round import Round
 
 
 class Tournament(Model):
     _table_name = "Tournament"
+    players = []
 
     def __init__(self, name=None,
                  place=None,
@@ -23,6 +29,7 @@ class Tournament(Model):
         self.description = description
         self.players = []
         self.turns_list = []
+        self.turn_number = len(self.turns_list) + 1
 
     def unserialize_tournament_data(self, tournament_data):
         self.name = tournament_data["name"]
@@ -56,3 +63,31 @@ class Tournament(Model):
             'turns_list': self.turns_list
         }
         return serialized_data
+
+    def compute_round(self):
+        players_list = self.players
+        _round = Round()
+        _round_number = str(self.turn_number)
+        _round.name = f"Round {str(_round_number)}"
+        """ Add a fake player if there are odd players """
+        if len(self.players) % 2 != 0:
+            fake_player = Player(name="fake", first_name="fake", rank="0")
+            players_list.append(fake_player.serialized())
+
+        """ the first turn : matches are computed with the rank """
+        if self.turn_number is 1:
+            sorted_players = sorted(players_list, key=lambda x: x["rank"])
+            middle = round(len(sorted_players)/2)
+            lower_players = sorted_players[:middle]
+            upper_players = sorted_players[(len(sorted_players) - middle):]
+            for i in range(middle):
+                _match = Match()
+                _match.player_1 = upper_players[i]
+                _match.player_2 = lower_players[i]
+                _round.add_match(_match)
+                pprint(_match.__dict__)
+                pprint(_match.to_tuple())
+            pprint(_round.__dict__, width=2)
+        return _round
+
+

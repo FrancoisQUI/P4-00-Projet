@@ -32,3 +32,4 @@ class Player(Model):
         self.birthdate = player_data["birthdate"]
         self.gender = player_data["gender"]
         self.rank = player_data["rank"]
+
