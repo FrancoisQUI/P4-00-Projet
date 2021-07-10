@@ -1,9 +1,11 @@
 from pprint import pprint, pformat
 
+from tinydb import where
+
 from match import Match
 from model import Model
 from player import Player
-from round import Round
+from turn import Turn
 
 
 class Tournament(Model):
@@ -29,9 +31,11 @@ class Tournament(Model):
         self.description = description
         self.players = []
         self.turns_list = []
+        self.ongoing_turn: Turn() = None
+
         self.turn_number = len(self.turns_list) + 1
 
-    def unserialize_tournament_data(self, tournament_data):
+    def deserialize_tournament_data(self, tournament_data):
         self.name = tournament_data["name"]
         self.place = tournament_data["place"]
         self.start_date = tournament_data["start_date"]
@@ -51,6 +55,7 @@ class Tournament(Model):
             self.turns_list = []
 
     def serialised(self):
+
         serialized_data = {
             'name': self.name,
             'place': self.place,
@@ -60,23 +65,31 @@ class Tournament(Model):
             'time_control': self.time_control,
             'description': self.description,
             'players': self.players,
-            'turns_list': self.turns_list
+            'turns_list': self.turns_list,
+            'ongoing_turn': self.ongoing_turn.serialized()
         }
         return serialized_data
 
-    def compute_round(self):
+    def update(self):
+        table = self.get_table()
+        obj_to_update = table.get(where("name") == self.__dict__["name"])
+        table.update(self.serialised(),
+                     doc_ids=[obj_to_update.doc_id])
+
+    def compute_round(self) -> Turn:
         players_list = self.players
-        _round = Round()
-        _round_number = str(self.turn_number)
-        _round.name = f"Round {str(_round_number)}"
+        turn = Turn()
+        turn.name = f"Round {str(self.turn_number)}"
         """ Add a fake player if there are odd players """
         if len(self.players) % 2 != 0:
-            fake_player = Player(name="fake", first_name="fake", rank="0")
+            fake_player = Player(name="fake", first_name="fake", rank=0)
             players_list.append(fake_player.serialized())
 
-        """ the first turn : matches are computed with the rank """
         if self.turn_number is 1:
+            """ the first turn : matches are computed with the rank """
             sorted_players = sorted(players_list, key=lambda x: x["rank"])
+
+            pprint(sorted_players)
             middle = round(len(sorted_players)/2)
             lower_players = sorted_players[:middle]
             upper_players = sorted_players[(len(sorted_players) - middle):]
@@ -84,10 +97,16 @@ class Tournament(Model):
                 _match = Match()
                 _match.player_1 = upper_players[i]
                 _match.player_2 = lower_players[i]
-                _round.add_match(_match)
-                pprint(_match.__dict__)
-                pprint(_match.to_tuple())
-            pprint(_round.__dict__, width=2)
-        return _round
+                turn.add_match(_match)
+            self.ongoing_turn = turn
+            return turn
+        else:
 
+            # TODO: Compute others rounds
+            pass
+            return turn
+
+    def close_ongoing_turn(self):
+        self.turns_list.append(self.ongoing_turn)
+        self.ongoing_turn = None
 

@@ -46,7 +46,7 @@ class PlayerView(View):
 
         for player in existing_players_list:
             player_instance = Player()
-            player_instance.unserialize_player_data(player)
+            player_instance.deserialize_player_data(player)
             player_choice_list.append(player_instance.__dict__)
 
         checkboxes = [

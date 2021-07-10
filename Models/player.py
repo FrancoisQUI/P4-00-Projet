@@ -23,13 +23,13 @@ class Player(Model):
             'name': self.name,
             'birthdate': self.birthdate,
             'gender': self.gender,
-            'rank' : self.rank}
+            'rank': self.rank}
         return serialized_data
 
-    def unserialize_player_data(self, player_data):
+    def deserialize_player_data(self, player_data):
         self.first_name = player_data["first_name"]
         self.name = player_data["name"]
         self.birthdate = player_data["birthdate"]
         self.gender = player_data["gender"]
-        self.rank = player_data["rank"]
+        self.rank = int(player_data["rank"])
 

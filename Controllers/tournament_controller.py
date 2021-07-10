@@ -5,6 +5,7 @@ from Views.tournament_view import TournamentView
 from Models.tournament import Tournament
 from Core.controller import Controller
 from player_controller import PlayerController
+from turn_controller import TurnController
 
 
 class TournamentController(Controller):
@@ -19,7 +20,7 @@ class TournamentController(Controller):
     def create_tournament():
         tournament_data = TournamentView.create_tournament_form()
         tournament = Tournament()
-        tournament.unserialize_tournament_data(tournament_data)
+        tournament.deserialize_tournament_data(tournament_data)
         tournament.save_new()
         return tournament
 
@@ -29,12 +30,11 @@ class TournamentController(Controller):
         tournament_data = Tournament.find_one_by_name(
             tournament_name)
         tournament = Tournament()
-        tournament.unserialize_tournament_data(tournament_data)
+        tournament.deserialize_tournament_data(tournament_data)
         return tournament
 
     @classmethod
     def manage_tournament_action(cls, tournament: Tournament):
-        # TODO: Refacto to use Tournament instance as parameter
         action = TournamentView.manage_tournament_action(tournament)
         pprint(action)
         if action == 'Add new player':
@@ -43,7 +43,8 @@ class TournamentController(Controller):
             PlayerController.add_existing_player(tournament)
         elif action == 'Compute first round':
             tournament.compute_round()
-            pass
+            TurnController.set_scores(tournament.ongoing_turn)
+            tournament.update()
         elif action == 'Enter round scores':
             # TODO: Enter round scores
             pass
