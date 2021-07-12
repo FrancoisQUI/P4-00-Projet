@@ -34,14 +34,3 @@ class Turn(Model):
     def add_match(self, match: Match):
         self.matches.append(match)
 
-    @staticmethod
-    def set_scores(score_list):
-        for played_match in score_list:
-            the_match = played_match[0]
-            result = played_match[1]["Winner"]
-            if result == "Draw":
-                the_match.player_1_score += 0.5
-                the_match.player_2_score += 0.5
-            elif result == the_match.player_1['name']:
-                pass
-            pprint(the_match)

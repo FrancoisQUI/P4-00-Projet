@@ -1,5 +1,3 @@
-from pprint import pprint
-
 from controller import Controller
 from player import Player
 from player_view import PlayerView
@@ -32,6 +30,6 @@ class PlayerController(Controller):
         for player in players:
             new_player = Player()
             new_player.deserialize_player_data(player)
-            tournament.players.append(new_player.serialized())
+            tournament.players.append(player)
         tournament.update()
-        pprint(players)
+

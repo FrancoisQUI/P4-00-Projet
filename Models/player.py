@@ -11,6 +11,7 @@ class Player(Model):
                  birthdate=None,
                  gender=None,
                  rank=None):
+        self.score = 0
         self.first_name = first_name
         self.name = name
         self.birthdate = birthdate
@@ -23,7 +24,8 @@ class Player(Model):
             'name': self.name,
             'birthdate': self.birthdate,
             'gender': self.gender,
-            'rank': self.rank}
+            'rank': self.rank,
+            'score': self.score}
         return serialized_data
 
     def deserialize_player_data(self, player_data):
@@ -32,4 +34,8 @@ class Player(Model):
         self.birthdate = player_data["birthdate"]
         self.gender = player_data["gender"]
         self.rank = int(player_data["rank"])
+        try:
+            self.score = int(player_data["score"])
+        except KeyError:
+            self.score = 0
 

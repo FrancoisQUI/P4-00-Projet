@@ -1,6 +1,8 @@
+from pprint import pprint
+
 from controller import Controller
+from match_view import MatchView
 from turn import Turn
-from turn_view import TurnView
 
 
 class TurnController(Controller):
@@ -10,6 +12,8 @@ class TurnController(Controller):
 
     @classmethod
     def set_scores(cls, turn):
-        scores_list = TurnView.set_scores_action(turn)
-        turn.set_scores(scores_list)
+        for match in turn.matches:
+            pprint(match.__dict__)
+            match_result = MatchView.register_match_score_action(match)
+            match.set_scores(match_result["Winner"])
         pass

@@ -59,3 +59,8 @@ class PlayerView(View):
         response = inquirer.prompt(checkboxes)
 
         return response['players']
+
+    @staticmethod
+    def player_description(player: Player):
+        # TODO: Make a player description
+        pass

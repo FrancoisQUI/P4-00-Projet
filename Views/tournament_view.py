@@ -55,34 +55,33 @@ class TournamentView(View):
 
     @classmethod
     def manage_tournament_action(cls, current_tournament: Tournament):
-        current_round = len(current_tournament.turns_list)
+
         cls.clear()
         print("--------------------------")
         print("Current tournament : " +
               current_tournament.name)
-        if current_round > 0:
-            print("Current Round : " +
-                  str(current_round))
-            # TODO: Show currents matches
+        print("Current turn : " + str(len(current_tournament.turns_list)+1))
+        if len(current_tournament.players) >= 1:
+            print("current players : " + current_tournament.players.__str__())
         else:
-            print("Add players before compute the first round")
+            print("Add players before compute the first turn")
         print("--------------------------")
 
-        def get_choices(_current_round):
+        def get_choices(tournament: Tournament):
             choices = []
-            if _current_round == 0:
+            if len(tournament.turns_list) == 0:
                 choices.append('Add new player')
                 choices.append('Add existing player')
-                choices.append('Compute first round')
-            else:
-                choices.append('Enter round scores')
-                choices.append('Compute next round')
+                choices.append('Compute first turn')
+            if tournament.ongoing_turn is not None:
+                choices.append('Enter turn scores')
+
             choices.append('Go Back')
             return choices
 
         actions = [
             inquirer.List('Action',
-                          choices=get_choices(current_round))]
+                          choices=get_choices(current_tournament))]
 
         response = inquirer.prompt(actions)
 
