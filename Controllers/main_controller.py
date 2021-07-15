@@ -30,5 +30,6 @@ class MainController(Controller):
                 select_tournament()
         elif action == 'Create tournament':
             TournamentController.create_tournament()
-
+        elif action == 'View data':
+            pass
         return MainController(current_tournament=tournament)
