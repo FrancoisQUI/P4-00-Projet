@@ -22,7 +22,8 @@ class MainView(View):
 
         def generate_choice_list(active_tournament=None):
             choices = ['Create tournament',
-                       'Select current tournament']
+                       'Select current tournament',
+                       'View data']
             if active_tournament is not None:
                 choices.append('Manage current tournament')
             choices.append('Quit Tournament Manager')

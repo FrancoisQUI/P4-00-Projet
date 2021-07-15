@@ -1,6 +1,9 @@
+from pprint import pprint
+
 import inquirer
 
 from Core.view import View
+from player_view import PlayerView
 from tournament import Tournament
 
 
@@ -61,21 +64,31 @@ class TournamentView(View):
         print("Current tournament : " +
               current_tournament.name)
         print("Current turn : " + str(len(current_tournament.turns_list)+1))
-        if len(current_tournament.players) >= 1:
-            print("current players : " + current_tournament.players.__str__())
+        if len(current_tournament.players) >= 2:
+            print("Current players : ")
+            for player in current_tournament.players:
+                PlayerView.simple_player_description(player)
         else:
             print("Add players before compute the first turn")
         print("--------------------------")
 
         def get_choices(tournament: Tournament):
             choices = []
-            if len(tournament.turns_list) == 0:
-                choices.append('Add new player')
-                choices.append('Add existing player')
-                choices.append('Compute first turn')
-            if tournament.ongoing_turn is not None:
-                choices.append('Enter turn scores')
-
+            if len(tournament.turns_list)+1 <= int(tournament.number_of_turns):
+                if len(tournament.turns_list) == 0 and \
+                        tournament.ongoing_turn is None:
+                    choices.append('Add new player')
+                    choices.append('Add existing player')
+                if len(tournament.players) >= 2 and \
+                        tournament.ongoing_turn is None and\
+                        len(tournament.turns_list) == 0:
+                    choices.append('Compute first turn')
+                if len(tournament.turns_list) > 0 and \
+                        tournament.ongoing_turn is None:
+                    choices.append('Compute next turn')
+                if tournament.ongoing_turn is not None:
+                    choices.append('Enter turn scores')
+            choices.append('Save Tournament')
             choices.append('Go Back')
             return choices
 

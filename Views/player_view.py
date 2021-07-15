@@ -40,20 +40,25 @@ class PlayerView(View):
             return False
 
     @staticmethod
-    def select_existing_player():
+    def select_existing_player(tournament=None):
         existing_players_list = Player.get_list()
         player_choice_list = []
+        already_registered_players = []
 
         for player in existing_players_list:
             player_instance = Player()
             player_instance.deserialize_player_data(player)
             player_choice_list.append(player_instance.__dict__)
 
+        for player in tournament.players:
+            already_registered_players.append(player.__dict__)
+
         checkboxes = [
             inquirer.Checkbox('players',
                               message="Select player to add "
                                       "(Many if necessary)",
-                              choices=player_choice_list)
+                              choices=player_choice_list,
+                              default=already_registered_players)
         ]
 
         response = inquirer.prompt(checkboxes)
@@ -61,6 +66,12 @@ class PlayerView(View):
         return response['players']
 
     @staticmethod
-    def player_description(player: Player):
-        # TODO: Make a player description
-        pass
+    def name_player(player: Player):
+        return f"| Name : {player.name} Firstname : {player.first_name} |"
+
+    @staticmethod
+    def simple_player_description(player: Player):
+        return \
+            print(f"| Name : {player.name} "
+                  f"Firstname : {player.first_name} "
+                  f"score: {player.score} |")

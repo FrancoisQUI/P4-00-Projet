@@ -18,18 +18,13 @@ class PlayerController(Controller):
             player = Player()
             player.deserialize_player_data(new_player_data)
             player.save_new()
-            tournament.players.append(player.serialized())
+            tournament.add_player(new_player_data)
             add_player = PlayerView.add_more_player_question()
-        tournament.update()
-
         return tournament
 
     @classmethod
     def add_existing_player(cls, tournament: Tournament):
-        players = PlayerView.select_existing_player()
+        players = PlayerView.select_existing_player(tournament)
+        tournament.players = []
         for player in players:
-            new_player = Player()
-            new_player.deserialize_player_data(player)
-            tournament.players.append(player)
-        tournament.update()
-
+            tournament.add_player(player)

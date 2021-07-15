@@ -13,7 +13,6 @@ class TurnController(Controller):
     @classmethod
     def set_scores(cls, turn):
         for match in turn.matches:
-            pprint(match.__dict__)
             match_result = MatchView.register_match_score_action(match)
             match.set_scores(match_result["Winner"])
         pass

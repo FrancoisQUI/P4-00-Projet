@@ -35,6 +35,7 @@ class TournamentController(Controller):
 
     @classmethod
     def manage_tournament_action(cls, tournament: Tournament):
+        pprint(tournament.__dict__)
         action = TournamentView.manage_tournament_action(tournament)
         if action == 'Add new player':
             PlayerController.create_player(tournament)
@@ -42,16 +43,14 @@ class TournamentController(Controller):
             PlayerController.add_existing_player(tournament)
         elif action == 'Compute first turn':
             tournament.compute_round()
-            tournament.update()
         elif action == 'Enter turn scores':
             TurnController.set_scores(tournament.ongoing_turn)
             tournament.close_ongoing_turn()
+        elif action == 'Compute next turn':
             tournament.compute_round()
-            # tournament.update(
-        elif action == 'Compute next round':
-            # TODO: Compute next round
-            pass
+        elif action == 'Save Tournament':
+            pprint(tournament)
+            tournament.update()
         else:
-            # TODO: Go back
             pass
         return tournament
