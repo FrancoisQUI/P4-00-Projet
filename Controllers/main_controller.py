@@ -14,22 +14,42 @@ class MainController(Controller):
         self.current_tournament = current_tournament
         self.view = MainView(current_tournament)
         self.view.clear()
-        self.render = self.view.render()
-        self.do_action(self.render["action"])
+        action = MainView.select_main_action(self.current_tournament)
+        self.do_action(action)
 
     def do_action(self, action):
-        tournament = None
         if action == 'Quit Tournament Manager':
             print("Tournament manager closed")
             sys.exit()
         elif action == 'Manage current tournament':
-            tournament = TournamentController.\
+            self.current_tournament = TournamentController.\
                 manage_tournament_action(self.current_tournament)
         elif action == 'Select current tournament':
-            tournament = TournamentController.\
+            self.current_tournament = TournamentController.\
                 select_tournament()
         elif action == 'Create tournament':
             TournamentController.create_tournament()
         elif action == 'View data':
+            self.view_data_action(self.current_tournament)
+        return MainController(self.current_tournament)
+
+    @staticmethod
+    def view_data_action(current_tournament=None):
+        data_to_view = MainView.choose_data_to_view(current_tournament)
+        if data_to_view == 'Tournaments List':
             pass
-        return MainController(current_tournament=tournament)
+        elif data_to_view == 'All time players by name':
+            pass
+        elif data_to_view == 'All time players by rank':
+            pass
+        elif data_to_view == 'Active tournament players by name':
+            pass
+        elif data_to_view == 'Active tournament players by rank':
+            pass
+        elif data_to_view == 'Active tournament played turns':
+            pass
+        elif data_to_view == 'Active tournament played matches':
+            pass
+        else:
+            pass
+        return MainController(current_tournament)

@@ -16,5 +16,5 @@ class View(ABC):
         return clear
 
     @staticmethod
-    def render():
+    def select_main_action():
         print("Le rendu de cette vue n'a pas encore été développé")
