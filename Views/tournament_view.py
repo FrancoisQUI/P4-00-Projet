@@ -1,8 +1,10 @@
 from pprint import pprint
+import pandas as pd
 
 import inquirer
 
 from Core.view import View
+from player import Player
 from player_view import PlayerView
 from tournament import Tournament
 
@@ -99,3 +101,16 @@ class TournamentView(View):
         response = inquirer.prompt(actions)
 
         return response["Action"]
+
+    @staticmethod
+    def view_list(the_list):
+        # Load the data in a data frame object
+        tournament_list = pd.DataFrame(the_list)
+        tournament_list = tournament_list[["name", "description",
+                                           "start_date", "end_date"]]
+
+        return print(tournament_list)
+
+
+
+

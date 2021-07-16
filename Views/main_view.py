@@ -1,15 +1,14 @@
-# Externals module
+
 from pprint import pprint
 
 import inquirer
 from colorama import init, Fore
 
-# Core imports
+
 from Core.view import View
 from tournament import Tournament
 from variables_settings import VERSION
 
-# Python modules
 
 init()  # initialise colorama module
 
@@ -72,4 +71,13 @@ class MainView(View):
                                          'Active tournament played matches']
             choices += active_tournament_choices
 
-        pass
+        choices.append('Back')
+        question = [inquirer.List('data_to_view',
+                                  message='view data :',
+                                  choices=choices,
+                                  default='Tournaments List')]
+
+        data_to_view = inquirer.prompt(question)
+        data_to_view = data_to_view['data_to_view']
+
+        return data_to_view

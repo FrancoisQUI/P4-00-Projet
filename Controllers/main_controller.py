@@ -1,10 +1,9 @@
-from pprint import pprint
-
 from Views.main_view import MainView
 import sys
 
 from Core.controller import Controller
 from Controllers.tournament_controller import TournamentController
+from player_controller import PlayerController
 
 
 class MainController(Controller):
@@ -22,34 +21,35 @@ class MainController(Controller):
             print("Tournament manager closed")
             sys.exit()
         elif action == 'Manage current tournament':
-            self.current_tournament = TournamentController.\
+            self.current_tournament = TournamentController. \
                 manage_tournament_action(self.current_tournament)
         elif action == 'Select current tournament':
-            self.current_tournament = TournamentController.\
+            self.current_tournament = TournamentController. \
                 select_tournament()
         elif action == 'Create tournament':
             TournamentController.create_tournament()
         elif action == 'View data':
-            self.view_data_action(self.current_tournament)
+            self.view_data_action()
         return MainController(self.current_tournament)
 
-    @staticmethod
-    def view_data_action(current_tournament=None):
-        data_to_view = MainView.choose_data_to_view(current_tournament)
+    def view_data_action(self):
+        data_to_view = MainView.choose_data_to_view(self.current_tournament)
         if data_to_view == 'Tournaments List':
-            pass
+            TournamentController.view_tournaments_list()
         elif data_to_view == 'All time players by name':
-            pass
+            PlayerController.view_players_by("first_name")
         elif data_to_view == 'All time players by rank':
-            pass
+            PlayerController.view_players_by("rank")
         elif data_to_view == 'Active tournament players by name':
-            pass
+            TournamentController.view_tournament_players_by(self.current_tournament, "first_name")
         elif data_to_view == 'Active tournament players by rank':
-            pass
+            TournamentController.view_tournament_players_by(self.current_tournament, "rank")
         elif data_to_view == 'Active tournament played turns':
-            pass
+            TournamentController.view_tournament_turns(self.current_tournament)
         elif data_to_view == 'Active tournament played matches':
+            pass
+        elif data_to_view == 'Back':
             pass
         else:
             pass
-        return MainController(current_tournament)
+        return MainController(self.current_tournament)

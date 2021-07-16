@@ -1,6 +1,7 @@
 from pprint import pprint
 
 import inquirer
+import pandas as pd
 
 from player import Player
 from view import View
@@ -75,3 +76,24 @@ class PlayerView(View):
             print(f"| Name : {player.name} "
                   f"Firstname : {player.first_name} "
                   f"score: {player.score} |")
+
+    @staticmethod
+    def view_list(a_player_list, sorted_by=None):
+        """
+
+        :param a_player_list: list of Player
+        :param sorted_by: must be a column name ("name", "first_name",
+                                   "birthdate", "gender",
+                                   "rank")
+        :return: a print of the list in a Pandas dataframe
+        """
+        player_list = pd.DataFrame(a_player_list)
+        player_list = player_list[["name", "first_name",
+                                   "birthdate", "gender",
+                                   "rank"]]
+        if sorted_by == "first_name":
+            player_list = player_list.loc[player_list["first_name"].str.lower().sort_values().index]
+        if sorted_by == "rank":
+            player_list = player_list.sort_values(by="rank", ascending=False)
+
+        return print(player_list)

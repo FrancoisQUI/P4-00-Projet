@@ -1,7 +1,7 @@
-import sys
+
 from pprint import pprint
 
-from tinydb import TinyDB, where, Query
+from tinydb import TinyDB, where
 
 from variables_settings import DATABASE_FILENAME
 

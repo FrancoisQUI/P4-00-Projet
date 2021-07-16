@@ -28,3 +28,8 @@ class PlayerController(Controller):
         tournament.players = []
         for player in players:
             tournament.add_player(player)
+
+    @classmethod
+    def view_players_by(cls, sorted_by):
+        players_list = Player.get_list()
+        PlayerView.view_list(players_list, sorted_by)

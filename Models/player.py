@@ -38,4 +38,3 @@ class Player(Model):
             self.score = int(player_data["score"])
         except KeyError:
             self.score = 0
-

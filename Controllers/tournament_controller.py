@@ -1,11 +1,12 @@
-import logging
 from pprint import pprint
 
 from Views.tournament_view import TournamentView
 from Models.tournament import Tournament
 from Core.controller import Controller
 from player_controller import PlayerController
+from player_view import PlayerView
 from turn_controller import TurnController
+from turn_view import TurnView
 
 
 class TournamentController(Controller):
@@ -54,3 +55,23 @@ class TournamentController(Controller):
         else:
             pass
         return tournament
+
+    @staticmethod
+    def view_tournaments_list():
+        tournament_list = Tournament.get_list()
+        TournamentView.view_list(tournament_list)
+
+    @staticmethod
+    def view_tournament_players_by(current_tournament: Tournament,
+                                   sort_by: str):
+        players_data = []
+        for player in current_tournament.players:
+            players_data.append(player.__dict__)
+        PlayerView.view_list(players_data, sort_by)
+
+    @staticmethod
+    def view_tournament_turns(current_tournament: Tournament):
+        tournament_turns_data = []
+        for turn in current_tournament.turns_list:
+            tournament_turns_data.append(turn.serialized())
+        TurnView.view_list(tournament_turns_data)
