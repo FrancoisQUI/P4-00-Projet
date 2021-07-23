@@ -19,6 +19,10 @@ class View(ABC):
         return clear
 
     @staticmethod
+    def wait_user_action():
+        input("press a key to continue")
+
+    @staticmethod
     def select_main_action():
         print("Le rendu de cette vue n'a pas encore été développé")
 

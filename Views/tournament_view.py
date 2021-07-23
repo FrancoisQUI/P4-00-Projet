@@ -1,10 +1,8 @@
-from pprint import pprint
 import pandas as pd
 
 import inquirer
 
 from Core.view import View
-from player import Player
 from player_view import PlayerView
 from tournament import Tournament
 
@@ -63,8 +61,7 @@ class TournamentView(View):
 
         cls.clear()
         print("--------------------------")
-        print("Current tournament : " +
-              current_tournament.name)
+        print(f"Current tournament : {current_tournament.name}")
         print("Current turn : " + str(len(current_tournament.turns_list)+1))
         if len(current_tournament.players) >= 2:
             print("Current players : ")
@@ -111,6 +108,22 @@ class TournamentView(View):
 
         return print(tournament_list)
 
+    @classmethod
+    def choose_active_tournament_turn(cls, current_tournament):
+        choices = []
+        for turn in current_tournament.turns_list:
+            choices.append(turn.name)
+        pass
+
+        question = [
+            inquirer.List('turn',
+                          choices=choices,
+                          message="Choose a turn")
+        ]
+
+        turn = inquirer.prompt(question)
+
+        return turn['turn']
 
 
 

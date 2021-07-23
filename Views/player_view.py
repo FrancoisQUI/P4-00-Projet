@@ -92,8 +92,8 @@ class PlayerView(View):
                                    "birthdate", "gender",
                                    "rank"]]
         if sorted_by == "first_name":
-            player_list = player_list.loc[player_list["first_name"].str.lower().sort_values().index]
-        if sorted_by == "rank":
+            player_list = player_list.loc[player_list["name"].str.lower().sort_values().index]
+        elif sorted_by == "rank":
             player_list = player_list.sort_values(by="rank", ascending=False)
 
         return print(player_list)

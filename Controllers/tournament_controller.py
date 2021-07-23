@@ -1,12 +1,15 @@
 from pprint import pprint
 
+from colorama import Fore
+
 from Views.tournament_view import TournamentView
 from Models.tournament import Tournament
 from Core.controller import Controller
 from player_controller import PlayerController
-from player_view import PlayerView
 from turn_controller import TurnController
+from player_view import PlayerView
 from turn_view import TurnView
+from match_view import MatchView
 
 
 class TournamentController(Controller):
@@ -36,15 +39,22 @@ class TournamentController(Controller):
 
     @classmethod
     def manage_tournament_action(cls, tournament: Tournament):
-        pprint(tournament.__dict__)
+        if tournament.ongoing_turn is not None:
+            print(f"{Fore.Green} Ongoing Turn")
+            TurnView.show_turn(tournament.ongoing_turn)
+
         action = TournamentView.manage_tournament_action(tournament)
+
         if action == 'Add new player':
             PlayerController.create_player(tournament)
         elif action == 'Add existing player':
             PlayerController.add_existing_player(tournament)
         elif action == 'Compute first turn':
             tournament.compute_round()
+            TurnView.show_turn(tournament.ongoing_turn)
         elif action == 'Enter turn scores':
+            TurnView.show_turn(tournament.ongoing_turn)
+            TurnView.wait_user_action()
             TurnController.set_scores(tournament.ongoing_turn)
             tournament.close_ongoing_turn()
         elif action == 'Compute next turn':
@@ -71,7 +81,12 @@ class TournamentController(Controller):
 
     @staticmethod
     def view_tournament_turns(current_tournament: Tournament):
-        tournament_turns_data = []
-        for turn in current_tournament.turns_list:
-            tournament_turns_data.append(turn.serialized())
-        TurnView.view_list(tournament_turns_data)
+        turn_to_show = TournamentView.choose_active_tournament_turn(current_tournament)
+        turn = current_tournament.get_tournament_turn_by_name(turn_to_show)
+        TurnView.show_turn(turn)
+
+    @classmethod
+    def view_tournament_matches(cls, current_tournament: Tournament):
+        all_matches = current_tournament.get_all_match()
+        MatchView.show_matches(all_matches)
+

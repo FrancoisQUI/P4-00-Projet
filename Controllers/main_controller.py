@@ -44,12 +44,13 @@ class MainController(Controller):
             TournamentController.view_tournament_players_by(self.current_tournament, "first_name")
         elif data_to_view == 'Active tournament players by rank':
             TournamentController.view_tournament_players_by(self.current_tournament, "rank")
-        elif data_to_view == 'Active tournament played turns':
+        elif data_to_view == 'Active tournament turns':
             TournamentController.view_tournament_turns(self.current_tournament)
         elif data_to_view == 'Active tournament played matches':
-            pass
+            TournamentController.view_tournament_matches(self.current_tournament)
         elif data_to_view == 'Back':
             pass
         else:
             pass
+        self.view.wait_user_action()
         return MainController(self.current_tournament)

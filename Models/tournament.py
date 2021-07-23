@@ -98,7 +98,7 @@ class Tournament(Model):
 
     def compute_round(self) -> Turn:
         turn = Turn()
-        turn.name = f"Round {str(len(self.turns_list))}"
+        turn.name = f"Turn {str(len(self.turns_list) + 1)}"
 
         if len(self.turns_list) == 0:
             """ Add a fake player if there are odd players """
@@ -111,7 +111,7 @@ class Tournament(Model):
             upper_players = sorted_players[(len(sorted_players) - middle):]
             lower_players = sorted_players[:middle]
             for i in range(middle):
-                match = Match()
+                match = Match(turn.name)
                 match.player_1 = upper_players[i]
                 match.player_2 = lower_players[i]
                 turn.add_match(match)
@@ -121,7 +121,7 @@ class Tournament(Model):
             sorted_players = sorted(self.players, key=lambda x: x.score)
             middle = round(len(sorted_players) / 2)
             for i in range(middle):
-                match = Match()
+                match = Match(turn.name)
                 a = 0
                 b = 1
                 existing_match = False
@@ -158,3 +158,15 @@ class Tournament(Model):
                     return True
                 else:
                     return False
+
+    def get_tournament_turn_by_name(self, name):
+        for turn in self.turns_list:
+            if turn.name == name:
+                return turn
+
+    def get_all_match(self):
+        match_list = []
+        for turn in self.turns_list:
+            for match in turn.matches:
+                match_list.append(match)
+        return match_list

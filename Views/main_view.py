@@ -29,8 +29,8 @@ class MainView(View):
         :return: string
         """
         pprint(current_tournament)
-        print(Fore.GREEN + "CTM: Chess Tournament Manager --------- " +
-              Fore.CYAN + "Version : " + VERSION)
+        print(f"{Fore.GREEN}CTM: {Fore.LIGHTGREEN_EX}Chess Tournament Manager "
+              f"--------- {Fore.LIGHTBLUE_EX}{VERSION : >10}")
 
         print(Fore.BLUE + "Current tournament ")
         if current_tournament is not None:
@@ -67,7 +67,7 @@ class MainView(View):
         if current_tournament is not None:
             active_tournament_choices = ['Active tournament players by name',
                                          'Active tournament players by rank',
-                                         'Active tournament played turns',
+                                         'Active tournament turns',
                                          'Active tournament played matches']
             choices += active_tournament_choices
 
