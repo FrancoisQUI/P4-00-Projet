@@ -1,6 +1,9 @@
+import re
+
 import pandas as pd
 
 import inquirer
+from inquirer import errors
 
 from Core.view import View
 from player_view import PlayerView
@@ -14,6 +17,22 @@ class TournamentView(View):
 
     @staticmethod
     def create_tournament_form():
+        def validate_date_format(answer, current):
+            if not re.match(
+                    "^(19[0-9]{2}|2[0-9]{3})-(0[1-9]|1[012])-([123]0|[012][1-9]|31)$",
+                    current):
+                raise errors.ValidationError('',
+                                             reason=
+                                             'Not a valid format! example : 1982-05-28')
+            return True
+
+        def validate_number_of_turns(answer, current):
+            if not re.match("^[0-9]{1,2}$",
+                            current):
+                raise errors.ValidationError('',
+                                             reason=
+                                             'Must be a number between 1 to 99')
+
         questions = [
             inquirer.Text('name',
                           message="The Tournament Name ? "),
@@ -21,11 +40,13 @@ class TournamentView(View):
                           message="Where is the tournament ? "),
             inquirer.Text('start_date',
                           message="When the tournament starts ? "
-                                  "Must be a number : AAAAMMDD"),
+                                  "Must be a number : YYYY-MM-DD",
+                          validate=validate_date_format),
             # TODO: Validate date format
             inquirer.Text('end_date',
                           message="When the tournament finish ? "
-                                  "Must be a number : AAAAMMDD"),
+                                  "Must be a number : YYYY-MM-DD",
+                          validate=validate_date_format),
             # TODO: Validate date format
             inquirer.Text('number_of_turns',
                           message="How many turns ? Default 8",
@@ -49,10 +70,13 @@ class TournamentView(View):
                 tournaments_list.append(tournament['name'])
             except KeyError:
                 pass
-            # TODO: regarder pour faire un IF
-        select = [inquirer.List('selected_tournament',
-                                message='Choose a tournament',
-                                choices=tournaments_list)]
+
+        if not tournaments:
+            return None
+        select = [
+            inquirer.List('selected_tournament',
+                          message='Choose a tournament',
+                          choices=tournaments_list)]
         response = inquirer.prompt(select)
         return response['selected_tournament']
 

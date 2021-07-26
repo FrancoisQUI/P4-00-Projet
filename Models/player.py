@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 
 from model import Model
 
@@ -14,7 +14,7 @@ class Player(Model):
         self.score = 0
         self.first_name = first_name
         self.name = name
-        self.birthdate = birthdate
+        self.birthdate: date = birthdate
         self.gender = gender
         self.rank = rank
 
@@ -31,7 +31,11 @@ class Player(Model):
     def deserialize_player_data(self, player_data):
         self.first_name = player_data["first_name"]
         self.name = player_data["name"]
-        self.birthdate = player_data["birthdate"]
+        if type(player_data["birthdate"]) is not datetime.date:
+            """ Support for non date format, remove this before swipe the DB"""
+            self.birthdate = player_data["birthdate"]
+        else:
+            self.birthdate = datetime.date(player_data["birthdate"])
         self.gender = player_data["gender"]
         self.rank = int(player_data["rank"])
         try:

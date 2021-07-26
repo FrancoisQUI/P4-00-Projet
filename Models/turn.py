@@ -31,16 +31,16 @@ class Turn(Model):
             serialized_data = {
                 'name': self.name,
                 'matches': serialized_matches,
-                'start_date': self.start_date.__str__(),
-                'end_date': self.end_date.__str__()
+                'start_date': self.start_date,
+                'end_date': self.end_date
             }
 
         return serialized_data
 
     def deserialize_data(self, data):
         self.name = data["name"]
-        self.start_date = data["start_date"]
-        self.end_date = data["end_date"]
+        self.start_date = datetime.date(data["start_date"])
+        self.end_date = datetime.date(data["end_date"])
         self.matches = []
         for match in data["matches"]:
             unique_match = Match()
@@ -57,4 +57,3 @@ class Turn(Model):
 
     def set_end_date(self, date):
         self.end_date = date
-

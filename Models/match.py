@@ -7,7 +7,6 @@ class Match(Model):
     def __init__(self, turn: str = "Not Initialized",
                  player_1: Player = None,
                  player_2: Player = None,
-                 winner: str = None
                  ):
         """
         :param player_1: Player

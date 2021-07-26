@@ -31,16 +31,19 @@ class TournamentController(Controller):
     @classmethod
     def select_tournament(cls):
         tournament_name = TournamentView.select_tournament()
-        tournament_data = Tournament.find_one_by_name(
-            tournament_name)
-        tournament = Tournament()
-        tournament.deserialize_tournament_data(tournament_data)
-        return tournament
+        if tournament_name is not None:
+            tournament_data = Tournament.find_one_by_name(
+                tournament_name)
+            tournament = Tournament()
+            tournament.deserialize_tournament_data(tournament_data)
+            return tournament
+        else:
+            return None
 
     @classmethod
     def manage_tournament_action(cls, tournament: Tournament):
         if tournament.ongoing_turn is not None:
-            print(f"{Fore.Green} Ongoing Turn")
+            print("Ongoing Turn")
             TurnView.show_turn(tournament.ongoing_turn)
 
         action = TournamentView.manage_tournament_action(tournament)

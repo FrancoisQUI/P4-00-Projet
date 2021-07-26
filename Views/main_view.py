@@ -41,7 +41,7 @@ class MainView(View):
         """
         prompt question
         """
-
+        # TODO : Select tournament ne doit pas apparaitre si il n'y a pas de tournois en BDD
         choices = ['Create tournament',
                    'Select current tournament',
                    'View data']
