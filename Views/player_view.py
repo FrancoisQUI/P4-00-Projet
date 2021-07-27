@@ -4,8 +4,8 @@ import inquirer
 import pandas as pd
 from inquirer import errors
 
-from player import Player
-from view import View
+from Core.view import View
+from Models.player import Player
 
 
 class PlayerView(View):
@@ -17,18 +17,19 @@ class PlayerView(View):
     def create_new_player_form():
         def validate_date_format(answer, current):
             if not re.match(
-                    "^(19[0-9]{2}|2[0-9]{3})-(0[1-9]|1[012])-([123]0|[012][1-9]|31)$",
+                    "^(19[0-9]{2}|2[0-9]{3})-"
+                    "(0[1-9]|1[012])-"
+                    "([123]0|[012][1-9]|31)$",
                     current):
                 raise errors.ValidationError('',
-                                             reason=
-                                             'Not valid format! example : 1982-05-28')
+                                             reason='Not valid format! '
+                                                    'example : 1982-05-28')
             return True
 
         def validate_rank_format(answer, current):
             if not re.match("^[0-9]{1,4}$", current):
                 raise errors.ValidationError('',
-                                             reason=
-                                             'Number between 1 to 9999')
+                                             reason='Number between 1 to 9999')
             return True
 
         questions = [
@@ -39,7 +40,8 @@ class PlayerView(View):
                           validate=validate_date_format),
             inquirer.List('gender',
                           choices=['M', 'F', '?']),
-            inquirer.Text('rank', message='Rank', validate=validate_rank_format)
+            inquirer.Text('rank', message='Rank',
+                          validate=validate_rank_format)
         ]
 
         return inquirer.prompt(questions)
@@ -111,7 +113,8 @@ class PlayerView(View):
                                    "birthdate", "gender",
                                    "rank"]]
         if sorted_by == "first_name":
-            player_list = player_list.loc[player_list["name"].str.lower().sort_values().index]
+            player_list = \
+                player_list.loc[player_list["name"].str.lower().sort_values().index]
         elif sorted_by == "rank":
             player_list = player_list.sort_values(by="rank", ascending=False)
 

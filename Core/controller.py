@@ -7,4 +7,3 @@ class Controller(ABC):
 
     def __init__(self, logger=logger):
         self.logger = logger
-

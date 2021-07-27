@@ -1,11 +1,11 @@
-from Views.tournament_view import TournamentView
-from Models.tournament import Tournament
 from Core.controller import Controller
-from player_controller import PlayerController
-from turn_controller import TurnController
-from player_view import PlayerView
-from turn_view import TurnView
-from match_view import MatchView
+from Models.tournament import Tournament
+from Views.match_view import MatchView
+from Views.player_view import PlayerView
+from Views.tournament_view import TournamentView
+from Views.turn_view import TurnView
+from Controllers.player_controller import PlayerController
+from Controllers.turn_controller import TurnController
 
 
 class TournamentController(Controller):
@@ -79,7 +79,9 @@ class TournamentController(Controller):
 
     @staticmethod
     def view_tournament_turns(current_tournament: Tournament):
-        turn_to_show = TournamentView.choose_active_tournament_turn(current_tournament)
+        turn_to_show = \
+            TournamentView.choose_active_tournament_turn(
+                current_tournament)
         turn = current_tournament.get_tournament_turn_by_name(turn_to_show)
         TurnView.show_turn(turn)
 
@@ -87,4 +89,3 @@ class TournamentController(Controller):
     def view_tournament_matches(cls, current_tournament: Tournament):
         all_matches = current_tournament.get_all_match()
         MatchView.show_matches(all_matches)
-

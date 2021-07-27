@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from model import Model
+from Core.model import Model
 
 
 class Player(Model):

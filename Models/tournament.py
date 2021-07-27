@@ -1,11 +1,10 @@
 from datetime import datetime
-
 from tinydb import where
 
-from match import Match
-from model import Model
-from player import Player
-from turn import Turn
+from Models.match import Match
+from Models.player import Player
+from Models.turn import Turn
+from Core.model import Model
 
 
 class Tournament(Model):
@@ -125,8 +124,8 @@ class Tournament(Model):
                 b = 1
                 existing_match = False
                 while existing_match is True:
-                    existing_match = self.check_match_for_players(sorted_players[a],
-                                                                  sorted_players[b])
+                    existing_match = self.check_match_for_players(
+                        sorted_players[a], sorted_players[b])
                     b += 1
                 match.player_1 = sorted_players[a]
                 match.player_2 = sorted_players[b]

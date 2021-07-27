@@ -1,7 +1,7 @@
 import pandas as pd
 
-from turn import Turn
-from view import View
+from Models.turn import Turn
+from Core.view import View
 
 
 class TurnView(View):
@@ -24,6 +24,3 @@ class TurnView(View):
 
         match_list = pd.DataFrame(match_list_data)
         return print(match_list)
-
-
-

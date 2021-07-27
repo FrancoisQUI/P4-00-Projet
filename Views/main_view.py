@@ -1,9 +1,9 @@
 import inquirer
 from colorama import init, Fore
 
+from Core.variables_settings import VERSION
 from Core.view import View
-from tournament import Tournament
-from variables_settings import VERSION
+from Models.tournament import Tournament
 
 init()  # initialise colorama module
 

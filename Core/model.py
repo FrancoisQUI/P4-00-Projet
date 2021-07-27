@@ -1,7 +1,7 @@
 
 from tinydb import TinyDB, where
 
-from variables_settings import DATABASE_FILENAME
+from Core.variables_settings import DATABASE_FILENAME
 
 
 class Model:
@@ -13,6 +13,24 @@ class Model:
                       sort_keys=True,
                       indent=2,
                       separators=(',', ': '))
+
+    @classmethod
+    def find_one_by_name(cls, the_name):
+        table = cls.get_table()
+        result = table.get(where("name") == the_name)
+        return result
+
+    def get_id(self):
+        table = self.get_table()
+        _object = table.get(where("name") == self.__dict__["name"])
+        print("get_id() object")
+        return _object.doc_id
+
+    @classmethod
+    def get_list(cls):
+        table = cls.get_table()
+        all_data = table.all()
+        return all_data
 
     @classmethod
     def get_table(cls):
@@ -34,21 +52,3 @@ class Model:
         obj_to_update = table.get(where("name") == self.__dict__["name"])
         table.update(self.__dict__,
                      doc_ids=[obj_to_update.doc_id])
-
-    def get_id(self):
-        table = self.get_table()
-        _object = table.get(where("name") == self.__dict__["name"])
-        print("get_id() object")
-        return _object.doc_id
-
-    @classmethod
-    def get_list(cls):
-        table = cls.get_table()
-        all_data = table.all()
-        return all_data
-
-    @classmethod
-    def find_one_by_name(cls, the_name):
-        table = cls.get_table()
-        result = table.get(where("name") == the_name)
-        return result

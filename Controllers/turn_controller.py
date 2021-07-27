@@ -1,8 +1,6 @@
-from pprint import pprint
-
-from controller import Controller
-from match_view import MatchView
-from turn import Turn
+from Models.turn import Turn
+from Views.match_view import MatchView
+from Core.controller import Controller
 
 
 class TurnController(Controller):

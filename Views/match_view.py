@@ -1,8 +1,8 @@
 import inquirer
 import pandas as pd
 
-from match import Match
-from view import View
+from Core.view import View
+from Models.match import Match
 
 
 class MatchView(View):
@@ -36,5 +36,6 @@ class MatchView(View):
             match_list_data.append(unique_match)
 
         show_list = pd.DataFrame(match_list_data)
-        show_list = show_list.loc[show_list["Player 1"].str.lower().sort_values().index]
+        show_list = \
+            show_list.loc[show_list["Player 1"].str.lower().sort_values().index]
         return print(show_list)

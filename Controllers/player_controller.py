@@ -1,7 +1,7 @@
-from controller import Controller
-from player import Player
-from player_view import PlayerView
-from tournament import Tournament
+from Core.controller import Controller
+from Models.player import Player
+from Models.tournament import Tournament
+from Views.player_view import PlayerView
 
 
 class PlayerController(Controller):

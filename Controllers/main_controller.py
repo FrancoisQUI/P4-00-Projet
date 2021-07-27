@@ -1,9 +1,8 @@
-from Views.main_view import MainView
 import sys
-
 from Core.controller import Controller
+from Views.main_view import MainView
 from Controllers.tournament_controller import TournamentController
-from player_controller import PlayerController
+from Controllers.player_controller import PlayerController
 
 
 class MainController(Controller):
@@ -41,13 +40,19 @@ class MainController(Controller):
         elif data_to_view == 'All time players by rank':
             PlayerController.view_players_by("rank")
         elif data_to_view == 'Active tournament players by name':
-            TournamentController.view_tournament_players_by(self.current_tournament, "first_name")
+            TournamentController.view_tournament_players_by(
+                self.current_tournament,
+                "first_name")
         elif data_to_view == 'Active tournament players by rank':
-            TournamentController.view_tournament_players_by(self.current_tournament, "rank")
+            TournamentController.view_tournament_players_by(
+                self.current_tournament,
+                "rank")
         elif data_to_view == 'Active tournament turns':
-            TournamentController.view_tournament_turns(self.current_tournament)
+            TournamentController.view_tournament_turns(
+                self.current_tournament)
         elif data_to_view == 'Active tournament played matches':
-            TournamentController.view_tournament_matches(self.current_tournament)
+            TournamentController.view_tournament_matches(
+                self.current_tournament)
         elif data_to_view == 'Back':
             pass
         else:

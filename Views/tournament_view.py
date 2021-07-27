@@ -6,8 +6,8 @@ import inquirer
 from inquirer import errors
 
 from Core.view import View
-from player_view import PlayerView
-from tournament import Tournament
+from Views.player_view import PlayerView
+from Models.tournament import Tournament
 
 
 class TournamentView(View):
@@ -19,19 +19,21 @@ class TournamentView(View):
     def create_tournament_form():
         def validate_date_format(answer, current):
             if not re.match(
-                    "^(19[0-9]{2}|2[0-9]{3})-(0[1-9]|1[012])-([123]0|[012][1-9]|31)$",
+                    "^(19[0-9]{2}|2[0-9]{3})-"
+                    "(0[1-9]|1[012])-"
+                    "([123]0|[012][1-9]|31)$",
                     current):
                 raise errors.ValidationError('',
-                                             reason=
-                                             'Not a valid format! example : 1982-05-28')
+                                             reason='Not a valid format! '
+                                                    'example : 1982-05-28')
             return True
 
         def validate_number_of_turns(answer, current):
             if not re.match("^[0-9]{1,2}$",
                             current):
                 raise errors.ValidationError('',
-                                             reason=
-                                             'Must be a number between 1 to 99')
+                                             reason='Must be a number '
+                                                    'between 1 to 99')
 
         questions = [
             inquirer.Text('name',
@@ -47,7 +49,8 @@ class TournamentView(View):
                                   "Must be a number : YYYY-MM-DD",
                           validate=validate_date_format),
             inquirer.Text('number_of_turns',
-                          message="How many turns ? Default 8, min 1 - max 99",
+                          message="How many turns ? "
+                                  "Default 8, min 1 - max 99",
                           default=8,
                           validate=validate_number_of_turns),
             inquirer.List('time_control',
@@ -147,6 +150,3 @@ class TournamentView(View):
         turn = inquirer.prompt(question)
 
         return turn['turn']
-
-
-

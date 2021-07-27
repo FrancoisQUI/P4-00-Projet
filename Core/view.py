@@ -1,6 +1,5 @@
 from os import system, name
 from abc import ABC
-
 import pandas as pd
 
 
@@ -18,15 +17,15 @@ class View(ABC):
         return clear
 
     @staticmethod
-    def wait_user_action():
-        input("press a key to continue")
-
-    @staticmethod
     def select_main_action():
-        print("Le rendu de cette vue n'a pas encore été développé")
+        print("WIP")
 
     @staticmethod
     def view_list(the_list):
         # Load the data in a data frame object
         df = pd.DataFrame(the_list)
         return print(df)
+
+    @staticmethod
+    def wait_user_action():
+        input("press a key to continue")

@@ -1,5 +1,5 @@
-from model import Model
-from player import Player
+from Core.model import Model
+from Models.player import Player
 
 
 class Match(Model):
@@ -52,4 +52,3 @@ class Match(Model):
             self.player_1.score += .5
             self.player_2.score += .5
             self.result = "Draw"
-

@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from match import Match
-from model import Model
+from Core.model import Model
+from Models.match import Match
 
 
 class Turn(Model):
