@@ -34,6 +34,7 @@ class TournamentView(View):
                 raise errors.ValidationError('',
                                              reason='Must be a number '
                                                     'between 1 to 99')
+            return True
 
         questions = [
             inquirer.Text('name',
