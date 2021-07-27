@@ -1,6 +1,4 @@
 
-from pprint import pprint
-
 from tinydb import TinyDB, where
 
 from variables_settings import DATABASE_FILENAME
@@ -41,7 +39,6 @@ class Model:
         table = self.get_table()
         _object = table.get(where("name") == self.__dict__["name"])
         print("get_id() object")
-        pprint(_object)
         return _object.doc_id
 
     @classmethod

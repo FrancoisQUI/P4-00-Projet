@@ -1,6 +1,5 @@
 import pandas as pd
 
-from match import Match
 from turn import Turn
 from view import View
 

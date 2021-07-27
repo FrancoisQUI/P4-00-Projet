@@ -1,5 +1,3 @@
-from pprint import pprint
-
 import inquirer
 import pandas as pd
 

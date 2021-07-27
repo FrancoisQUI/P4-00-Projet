@@ -1,14 +1,9 @@
-
-from pprint import pprint
-
 import inquirer
 from colorama import init, Fore
-
 
 from Core.view import View
 from tournament import Tournament
 from variables_settings import VERSION
-
 
 init()  # initialise colorama module
 
@@ -28,7 +23,9 @@ class MainView(View):
         :param current_tournament: Tournament
         :return: string
         """
-        pprint(current_tournament)
+        """
+        app and current tournament informations
+        """
         print(f"{Fore.GREEN}CTM: {Fore.LIGHTGREEN_EX}Chess Tournament Manager "
               f"--------- {Fore.LIGHTBLUE_EX}{VERSION : >10}")
 
@@ -36,15 +33,15 @@ class MainView(View):
         if current_tournament is not None:
             print(Fore.RED + current_tournament.name)
         else:
-            print(Fore.BLUE + "Any")
+            print(Fore.BLUE + "Select or create a tournament")
 
         """
         prompt question
         """
-        # TODO : Select tournament ne doit pas apparaitre si il n'y a pas de tournois en BDD
-        choices = ['Create tournament',
-                   'Select current tournament',
-                   'View data']
+        choices = ['Create tournament']
+        if len(Tournament.get_list()) != 0:
+            choices.append('Select current tournament')
+            choices.append('View data')
         if current_tournament is not None:
             choices.append('Manage current tournament')
         choices.append('Quit Tournament Manager')

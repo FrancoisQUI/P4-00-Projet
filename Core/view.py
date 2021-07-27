@@ -1,6 +1,5 @@
 from os import system, name
 from abc import ABC
-from pprint import pprint
 
 import pandas as pd
 

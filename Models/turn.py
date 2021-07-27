@@ -1,6 +1,4 @@
 from datetime import datetime
-import time
-from pprint import pprint
 
 from match import Match
 from model import Model
@@ -11,9 +9,6 @@ class Turn(Model):
 
     def __init__(self):
         super().__init__()
-        # TODO : Ajouter une propriété de date de début
-        #  et de fin
-
         self.start_date = datetime.now()
         self.name = None
         self.matches = []

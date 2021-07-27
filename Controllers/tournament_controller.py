@@ -1,7 +1,3 @@
-from pprint import pprint
-
-from colorama import Fore
-
 from Views.tournament_view import TournamentView
 from Models.tournament import Tournament
 from Core.controller import Controller
@@ -63,7 +59,6 @@ class TournamentController(Controller):
         elif action == 'Compute next turn':
             tournament.compute_round()
         elif action == 'Save Tournament':
-            pprint(tournament)
             tournament.update()
         else:
             pass

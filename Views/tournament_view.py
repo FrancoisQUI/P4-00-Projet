@@ -42,15 +42,14 @@ class TournamentView(View):
                           message="When the tournament starts ? "
                                   "Must be a number : YYYY-MM-DD",
                           validate=validate_date_format),
-            # TODO: Validate date format
             inquirer.Text('end_date',
                           message="When the tournament finish ? "
                                   "Must be a number : YYYY-MM-DD",
                           validate=validate_date_format),
-            # TODO: Validate date format
             inquirer.Text('number_of_turns',
-                          message="How many turns ? Default 8",
-                          default=8),
+                          message="How many turns ? Default 8, min 1 - max 99",
+                          default=8,
+                          validate=validate_number_of_turns),
             inquirer.List('time_control',
                           message="What kind of time control ? ",
                           choices=["Bullet", "Blitz", "Quick hit"],
