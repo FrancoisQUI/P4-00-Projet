@@ -36,6 +36,6 @@ class MatchView(View):
             match_list_data.append(unique_match)
 
         show_list = pd.DataFrame(match_list_data)
-        show_list = \
-            show_list.loc[show_list["Player 1"].str.lower().sort_values().index]
+        data_group = show_list["Player 1"].str.lower().sort_values().index
+        show_list = show_list.loc[data_group]
         return print(show_list)

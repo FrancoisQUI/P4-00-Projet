@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from tinydb import where
 
 from Models.match import Match
@@ -23,8 +23,8 @@ class Tournament(Model):
 
         self.name = name
         self.place = place
-        self.start_date = start_date
-        self.end_date = end_date
+        self.start_date: date = start_date
+        self.end_date: date = end_date
         self.number_of_turns = number_of_turns
         self.time_control = time_control
         self.description = description
@@ -36,8 +36,10 @@ class Tournament(Model):
     def deserialize_tournament_data(self, tournament_data):
         self.name = tournament_data["name"]
         self.place = tournament_data["place"]
-        self.start_date = tournament_data["start_date"]
-        self.end_date = tournament_data["end_date"]
+        self.start_date = \
+            date.fromisoformat(str(tournament_data["start_date"]))
+        self.end_date = \
+            date.fromisoformat(str(tournament_data["end_date"]))
         self.number_of_turns = tournament_data["number_of_turns"]
         self.time_control = tournament_data["time_control"]
         self.description = tournament_data["description"]
@@ -74,11 +76,23 @@ class Tournament(Model):
         else:
             serialized_ongoing_turn = self.ongoing_turn.serialized()
 
+        print(self.start_date)
+
+        try:
+            serialized_start_date = self.start_date.isoformat()
+        except TypeError:
+            serialized_start_date = str(self.start_date)
+
+        try:
+            serialized_end_date = self.end_date.isoformat()
+        except TypeError:
+            serialized_end_date = str(self.end_date)
+
         serialized_data = {
             'name': self.name,
             'place': self.place,
-            'start_date': self.start_date,
-            'end_date': self.end_date,
+            'start_date': serialized_start_date,
+            'end_date': serialized_end_date,
             'number_of_turns': self.number_of_turns,
             'time_control': self.time_control,
             'description': self.description,
@@ -87,6 +101,10 @@ class Tournament(Model):
             'ongoing_turn': serialized_ongoing_turn
         }
         return serialized_data
+
+    def save_new(self):
+        table = self.get_table()
+        table.insert(self.serialized())
 
     def update(self):
         table = self.get_table()

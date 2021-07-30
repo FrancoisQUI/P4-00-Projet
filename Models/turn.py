@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from Core.model import Model
 from Models.match import Match
@@ -12,9 +12,10 @@ class Turn(Model):
         self.start_date = datetime.now()
         self.name = None
         self.matches = []
-        self.end_date = None
+        self.end_date: [date, None] = None
 
     def serialized(self):
+
         if self is None:
             serialized_data = None
 
@@ -23,19 +24,30 @@ class Turn(Model):
             for match in self.matches:
                 serialized_matches.append(match.serialized())
 
+            try:
+                serialized_end_date = self.end_date.isoformat()
+            except AttributeError:
+                serialized_end_date = None
+
             serialized_data = {
                 'name': self.name,
                 'matches': serialized_matches,
-                'start_date': self.start_date,
-                'end_date': self.end_date
+                'start_date': self.start_date.isoformat(),
+                'end_date': serialized_end_date
             }
 
         return serialized_data
 
     def deserialize_data(self, data):
         self.name = data["name"]
-        self.start_date = datetime.date(data["start_date"])
-        self.end_date = datetime.date(data["end_date"])
+        if isinstance(self.start_date, date) is True:
+            self.start_date = date.fromisoformat(str(data["start_date"]))
+        else:
+            self.start_date = None
+        if isinstance(self.end_date, date) is True:
+            self.end_date = date.fromisoformat(str(data["end_date"]))
+        else:
+            self.end_date = None
         self.matches = []
         for match in data["matches"]:
             unique_match = Match()

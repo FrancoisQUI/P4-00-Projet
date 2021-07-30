@@ -113,8 +113,9 @@ class PlayerView(View):
                                    "birthdate", "gender",
                                    "rank"]]
         if sorted_by == "first_name":
+            selection = player_list["name"].str.lower().sort_values().index
             player_list = \
-                player_list.loc[player_list["name"].str.lower().sort_values().index]
+                player_list.loc[selection]
         elif sorted_by == "rank":
             player_list = player_list.sort_values(by="rank", ascending=False)
 

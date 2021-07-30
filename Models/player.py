@@ -1,4 +1,5 @@
-from datetime import date, datetime
+from datetime import date
+from pprint import pprint
 
 from Core.model import Model
 
@@ -19,26 +20,37 @@ class Player(Model):
         self.rank = rank
 
     def serialized(self):
+        try:
+            serialized_birthdate = self.birthdate.isoformat()
+        except AttributeError:
+            serialized_birthdate = None
+
         serialized_data = {
             'first_name': self.first_name,
             'name': self.name,
-            'birthdate': self.birthdate,
+            'birthdate': serialized_birthdate,
             'gender': self.gender,
             'rank': self.rank,
-            'score': self.score}
+            'score': self.score
+        }
+
         return serialized_data
 
     def deserialize_player_data(self, player_data):
         self.first_name = player_data["first_name"]
         self.name = player_data["name"]
-        if type(player_data["birthdate"]) is not datetime.date:
-            """ Support for non date format, remove this before swipe the DB"""
-            self.birthdate = player_data["birthdate"]
-        else:
-            self.birthdate = datetime.date(player_data["birthdate"])
+        try:
+            self.birthdate = date.fromisoformat(str(player_data["birthdate"]))
+        except (AttributeError, ValueError):
+            self.birthdate = None
         self.gender = player_data["gender"]
         self.rank = int(player_data["rank"])
         try:
             self.score = int(player_data["score"])
         except KeyError:
             self.score = 0
+        pprint(self.__dict__)
+
+    def save_new(self):
+        table = self.get_table()
+        table.insert(self.serialized())

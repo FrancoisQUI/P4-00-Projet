@@ -28,4 +28,4 @@ class View(ABC):
 
     @staticmethod
     def wait_user_action():
-        input("press a key to continue")
+        input("press \"enter\" to continue")

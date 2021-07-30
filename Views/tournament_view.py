@@ -6,8 +6,9 @@ import inquirer
 from inquirer import errors
 
 from Core.view import View
-from Views.player_view import PlayerView
 from Models.tournament import Tournament
+from Views.match_view import MatchView
+from Views.player_view import PlayerView
 
 
 class TournamentView(View):
@@ -96,6 +97,8 @@ class TournamentView(View):
                 PlayerView.simple_player_description(player)
         else:
             print("Add players before compute the first turn")
+        if current_tournament.ongoing_turn is not None:
+            MatchView.show_matches(current_tournament.ongoing_turn.matches)
         print("--------------------------")
 
         def get_choices(tournament: Tournament):

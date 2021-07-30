@@ -10,9 +10,6 @@ class TurnView(View):
 
     @staticmethod
     def show_turn(turn: Turn):
-        print(f"{turn.name :<20}"
-              f"{turn.start_date :^20}")
-
         match_list_data = []
         for match in turn.matches:
             """ :param match: Match"""
