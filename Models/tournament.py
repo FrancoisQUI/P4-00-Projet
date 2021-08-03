@@ -1,4 +1,5 @@
 from datetime import datetime, date
+
 from tinydb import where
 
 from Models.match import Match
@@ -140,7 +141,10 @@ class Tournament(Model):
             self.ongoing_turn = turn
 
         else:
-            sorted_players = sorted(self.players, key=lambda x: x.score)
+            # Sort players by score and rank
+            sorted_players = sorted(self.players,
+                                    key=lambda x: (x.score, x.rank),
+                                    reverse=True)
             middle = round(len(sorted_players) / 2)
             for i in range(middle):
                 match = Match(turn.name)
