@@ -41,5 +41,5 @@ class PlayerController(Controller):
         player_data_to_edit = PlayerView.select_unique_player()
         player = Player()
         player.deserialize_player_data(player_data_to_edit)
-        player.rank = PlayerView.edit_player_rank()
+        player.rank = int(PlayerView.edit_player_rank())
         player.update()
