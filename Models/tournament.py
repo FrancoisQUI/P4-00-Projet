@@ -48,7 +48,7 @@ class Tournament(Model):
             ongoing_turn = Turn()
             ongoing_turn.deserialize_data(tournament_data["ongoing_turn"])
             self.ongoing_turn = ongoing_turn
-        except AttributeError:
+        except (AttributeError, KeyError, TypeError):
             self.ongoing_turn = None
 
         try:

@@ -1,6 +1,4 @@
 from datetime import date
-from pprint import pprint
-
 from tinydb import where
 
 from Core.model import Model
@@ -51,7 +49,6 @@ class Player(Model):
             self.score = int(player_data["score"])
         except KeyError:
             self.score = 0
-        pprint(self.__dict__)
 
     def save_new(self):
         table = self.get_table()
