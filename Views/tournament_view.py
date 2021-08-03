@@ -1,14 +1,14 @@
 import re
-
 import pandas as pd
-
 import inquirer
 from inquirer import errors
 
-from Core.view import View
 from Models.tournament import Tournament
+
 from Views.match_view import MatchView
 from Views.player_view import PlayerView
+
+from Core.view import View
 
 
 class TournamentView(View):
@@ -16,19 +16,8 @@ class TournamentView(View):
     def __init__(self):
         super().__init__()
 
-    @staticmethod
-    def create_tournament_form():
-        def validate_date_format(answer, current):
-            if not re.match(
-                    "^(19[0-9]{2}|2[0-9]{3})-"
-                    "(0[1-9]|1[012])-"
-                    "([123]0|[012][1-9]|31)$",
-                    current):
-                raise errors.ValidationError('',
-                                             reason='Not a valid format! '
-                                                    'example : 1982-05-28')
-            return True
-
+    @classmethod
+    def create_tournament_form(cls):
         def validate_number_of_turns(answer, current):
             if not re.match("^[0-9]{1,2}$",
                             current):
@@ -45,11 +34,11 @@ class TournamentView(View):
             inquirer.Text('start_date',
                           message="When the tournament starts ? "
                                   "Must be a number : YYYY-MM-DD",
-                          validate=validate_date_format),
+                          validate=cls.validate_date_format),
             inquirer.Text('end_date',
                           message="When the tournament finish ? "
                                   "Must be a number : YYYY-MM-DD",
-                          validate=validate_date_format),
+                          validate=cls.validate_date_format),
             inquirer.Text('number_of_turns',
                           message="How many turns ? "
                                   "Default 8, min 1 - max 99",
@@ -77,6 +66,7 @@ class TournamentView(View):
 
         if not tournaments:
             return None
+
         select = [
             inquirer.List('selected_tournament',
                           message='Choose a tournament',

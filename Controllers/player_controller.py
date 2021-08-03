@@ -1,6 +1,8 @@
 from Core.controller import Controller
+
 from Models.player import Player
 from Models.tournament import Tournament
+
 from Views.player_view import PlayerView
 
 
@@ -33,3 +35,11 @@ class PlayerController(Controller):
     def view_players_by(cls, sorted_by):
         players_list = Player.get_list()
         PlayerView.view_list(players_list, sorted_by)
+
+    @staticmethod
+    def edit_player_rank():
+        player_data_to_edit = PlayerView.select_unique_player()
+        player = Player()
+        player.deserialize_player_data(player_data_to_edit)
+        player.rank = PlayerView.edit_player_rank()
+        player.update()

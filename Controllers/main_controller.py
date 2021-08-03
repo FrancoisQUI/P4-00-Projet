@@ -1,6 +1,9 @@
 import sys
+
 from Core.controller import Controller
+
 from Views.main_view import MainView
+
 from Controllers.tournament_controller import TournamentController
 from Controllers.player_controller import PlayerController
 
@@ -29,6 +32,8 @@ class MainController(Controller):
             TournamentController.create_tournament()
         elif action == 'View data':
             self.view_data_action()
+        elif action == 'Edit player rank':
+            PlayerController.edit_player_rank()
         return MainController(self.current_tournament)
 
     def view_data_action(self):

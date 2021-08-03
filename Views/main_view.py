@@ -4,6 +4,7 @@ from colorama import init, Fore
 from Core.variables_settings import VERSION
 from Core.view import View
 from Models.tournament import Tournament
+from Models.player import Player
 
 init()  # initialise colorama module
 
@@ -42,6 +43,8 @@ class MainView(View):
         if len(Tournament.get_list()) != 0:
             choices.append('Select current tournament')
             choices.append('View data')
+        if len(Player.get_list()) != 0:
+            choices.append('Edit player rank')
         if current_tournament is not None:
             choices.append('Manage current tournament')
         choices.append('Quit Tournament Manager')

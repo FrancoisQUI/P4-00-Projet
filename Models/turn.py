@@ -9,7 +9,7 @@ class Turn(Model):
 
     def __init__(self):
         super().__init__()
-        self.start_date = datetime.now()
+        self.start_date = datetime.now().isoformat()
         self.name = None
         self.matches = []
         self.end_date: [date, None] = None
@@ -32,7 +32,7 @@ class Turn(Model):
             serialized_data = {
                 'name': self.name,
                 'matches': serialized_matches,
-                'start_date': self.start_date.isoformat(),
+                'start_date': self.start_date,
                 'end_date': serialized_end_date
             }
 

@@ -1,8 +1,5 @@
-import re
-
 import inquirer
 import pandas as pd
-from inquirer import errors
 
 from Core.view import View
 from Models.player import Player
@@ -13,35 +10,19 @@ class PlayerView(View):
         super().__init__()
         self.current_tournament = current_tournament
 
-    @staticmethod
-    def create_new_player_form():
-        def validate_date_format(answer, current):
-            if not re.match(
-                    "^(19[0-9]{2}|2[0-9]{3})-"
-                    "(0[1-9]|1[012])-"
-                    "([123]0|[012][1-9]|31)$",
-                    current):
-                raise errors.ValidationError('',
-                                             reason='Not valid format! '
-                                                    'example : 1982-05-28')
-            return True
-
-        def validate_rank_format(answer, current):
-            if not re.match("^[0-9]{1,4}$", current):
-                raise errors.ValidationError('',
-                                             reason='Number between 1 to 9999')
-            return True
+    @classmethod
+    def create_new_player_form(cls):
 
         questions = [
             inquirer.Text('first_name', message='First Name'),
             inquirer.Text('name', message='Name'),
             inquirer.Text('birthdate',
                           message='Birthdate (YYYY-MM-DD)',
-                          validate=validate_date_format),
+                          validate=cls.validate_date_format),
             inquirer.List('gender',
                           choices=['M', 'F', '?']),
             inquirer.Text('rank', message='Rank',
-                          validate=validate_rank_format)
+                          validate=cls.validate_rank_format)
         ]
 
         return inquirer.prompt(questions)
@@ -120,3 +101,29 @@ class PlayerView(View):
             player_list = player_list.sort_values(by="rank", ascending=False)
 
         return print(player_list)
+
+    @staticmethod
+    def select_unique_player():
+        players = Player.get_list()
+        player_list = []
+        for player in players:
+            player_list.append(player)
+
+        question = [
+            inquirer.List('player',
+                          message='Choose a player to edit',
+                          choices=player_list)
+        ]
+        response = inquirer.prompt(question)
+        return response['player']
+
+    @classmethod
+    def edit_player_rank(cls):
+        question = [
+            inquirer.Text('rank', message='Rank',
+                          validate=cls.validate_rank_format)
+        ]
+
+        response = inquirer.prompt(question)
+
+        return response["rank"]

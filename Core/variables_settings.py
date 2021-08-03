@@ -9,4 +9,4 @@ LOG_FILENAME = os.path.join(MAIN_DIR, 'app_logs.log')
 DATABASE_FILENAME = os.path.join(MAIN_DIR, 'chess_db.json')
 
 # App version
-VERSION = "2021.07.27"
+VERSION = "2021.08.03"

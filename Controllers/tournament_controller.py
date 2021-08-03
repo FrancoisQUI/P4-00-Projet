@@ -1,9 +1,12 @@
 from Core.controller import Controller
+
 from Models.tournament import Tournament
+
 from Views.match_view import MatchView
 from Views.player_view import PlayerView
 from Views.tournament_view import TournamentView
 from Views.turn_view import TurnView
+
 from Controllers.player_controller import PlayerController
 from Controllers.turn_controller import TurnController
 

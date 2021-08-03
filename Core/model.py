@@ -1,4 +1,3 @@
-
 from tinydb import TinyDB, where
 
 from Core.variables_settings import DATABASE_FILENAME

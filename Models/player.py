@@ -1,6 +1,8 @@
 from datetime import date
 from pprint import pprint
 
+from tinydb import where
+
 from Core.model import Model
 
 
@@ -54,3 +56,9 @@ class Player(Model):
     def save_new(self):
         table = self.get_table()
         table.insert(self.serialized())
+
+    def update(self):
+        table = self.get_table()
+        obj_to_update = table.get(where("name") == self.name)
+        table.update(self.serialized(),
+                     doc_ids=[obj_to_update.doc_id])

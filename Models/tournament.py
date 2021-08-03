@@ -45,6 +45,13 @@ class Tournament(Model):
         self.description = tournament_data["description"]
 
         try:
+            ongoing_turn = Turn()
+            ongoing_turn.deserialize_data(tournament_data["ongoing_turn"])
+            self.ongoing_turn = ongoing_turn
+        except AttributeError:
+            self.ongoing_turn = None
+
+        try:
             for player_data in tournament_data["players"]:
                 unique_player = Player()
                 unique_player.deserialize_player_data(player_data)
@@ -58,7 +65,6 @@ class Tournament(Model):
                 unique_turn = Turn()
                 unique_turn.deserialize_data(turn)
                 self.turns_list.append(unique_turn)
-
         except KeyError:
             self.turns_list = []
 
@@ -154,7 +160,7 @@ class Tournament(Model):
         return turn
 
     def close_ongoing_turn(self):
-        self.ongoing_turn.set_end_date(datetime.now())
+        self.ongoing_turn.set_end_date(datetime.now().isoformat())
         self.turns_list.append(self.ongoing_turn)
         self.ongoing_turn = None
 

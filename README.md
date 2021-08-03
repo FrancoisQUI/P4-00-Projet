@@ -73,4 +73,4 @@ python main.py
 ```bash
 flake8 --format=html --htmldir=flake-report --exclude=./env
 ```
-The report will be created in the flaker-report directory.
+The report will be created in the flake-report directory.
