@@ -93,7 +93,7 @@ class TournamentView(View):
 
         def get_choices(tournament: Tournament):
             choices = []
-            if len(tournament.turns_list)+1 <= int(tournament.number_of_turns):
+            if len(tournament.turns_list) <= int(tournament.number_of_turns):
                 if len(tournament.turns_list) == 0 and \
                         tournament.ongoing_turn is None:
                     choices.append('Add new player')

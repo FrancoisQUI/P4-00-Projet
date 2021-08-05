@@ -177,10 +177,10 @@ class Tournament(Model):
         for turn in self.turns_list:
             for match in turn.matches:
                 """ :var match: Match """
-                if player_1.name == match.player_1.name \
-                        and player_2.name == match.player_2.name \
-                        or player_2.name == match.player_1.name \
-                        and player_1.name == match.player_2.name:
+                if player_1 == match.player_1 and \
+                        player_2 == match.player_2 or \
+                        player_2 == match.player_1 and \
+                        player_1 == match.player_2:
                     return True
         return False
 
