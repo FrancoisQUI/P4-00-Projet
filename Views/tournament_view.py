@@ -81,7 +81,7 @@ class TournamentView(View):
         print("--------------------------")
         print(f"Current tournament : {current_tournament.name}")
         print("Current turn : " + str(len(current_tournament.turns_list)+1))
-        if len(current_tournament.players) >= 2:
+        if len(current_tournament.players) >= int(current_tournament.number_of_turns)*2-1:
             print("Current players : ")
             for player in current_tournament.players:
                 PlayerView.simple_player_description(player)
@@ -98,8 +98,9 @@ class TournamentView(View):
                         tournament.ongoing_turn is None:
                     choices.append('Add new player')
                     choices.append('Add existing player')
-                if len(tournament.players) >= 2 and \
-                        tournament.ongoing_turn is None and\
+                if len(tournament.players) >= \
+                        int(current_tournament.number_of_turns)*2-1 \
+                        and tournament.ongoing_turn is None and\
                         len(tournament.turns_list) == 0:
                     choices.append('Compute first turn')
                 if len(tournament.turns_list) > 0 and \

@@ -1,4 +1,5 @@
 from datetime import datetime, date
+from pprint import pprint
 
 from tinydb import where
 
@@ -150,11 +151,10 @@ class Tournament(Model):
                 match = Match(turn.name)
                 a = 0
                 b = 1
-                existing_match = False
+                existing_match = self.check_match_for_players(sorted_players[a], sorted_players[b])
                 while existing_match is True:
-                    existing_match = self.check_match_for_players(
-                        sorted_players[a], sorted_players[b])
                     b += 1
+                    existing_match = self.check_match_for_players(sorted_players[a], sorted_players[b])
                 match.player_1 = sorted_players[a]
                 match.player_2 = sorted_players[b]
                 sorted_players.remove(match.player_1)
@@ -173,17 +173,16 @@ class Tournament(Model):
         new_player.deserialize_player_data(player_data)
         self.players.append(new_player)
 
-    def check_match_for_players(self, player_1, player_2) -> bool:
+    def check_match_for_players(self, player_1: Player, player_2: Player) -> bool:
         for turn in self.turns_list:
             for match in turn.matches:
                 """ :var match: Match """
-                if player_1 == match.player_1 and \
-                        player_2 == match.player_2 or \
-                        player_2 == match.player_1 and \
-                        player_1 == match.player_2:
+                if player_1.name == match.player_1.name \
+                        and player_2.name == match.player_2.name \
+                        or player_2.name == match.player_1.name \
+                        and player_1.name == match.player_2.name:
                     return True
-                else:
-                    return False
+        return False
 
     def get_tournament_turn_by_name(self, name):
         for turn in self.turns_list:
